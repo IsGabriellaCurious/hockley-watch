@@ -13,18 +13,7 @@ export async function get({ params }): Promise<EndpointOutput> {
         try {
             const result = await conn.query(queryString, params.id);
 
-            const row = (<RowDataPacket> result)[0][0];
             product = (result as RowDataPacket)[0][0] as Product;
-            /*product = {
-                id: row?.id,
-                name: row?.name,
-                brand: row?.brand,
-                description: row?.description,
-                coverimg: row?.coverimg,
-                price: row?.price,
-                reduced: row?.reduced,
-                reduced_price: row?.reduced_price
-            };*/
 
             if (!product) {
                 resolve({ status: 404 });
@@ -32,13 +21,13 @@ export async function get({ params }): Promise<EndpointOutput> {
             }
            
         } catch (e) {
-            console.log("AAAAAAAAAAA " + e);
+            console.log(e);
         } finally {
             conn.end();
         }
-        console.log("double check " + JSON.stringify(product))
         resolve({
-            body: JSON.stringify(product)
+            body: JSON.stringify(product),
+            status: 200
         });
     }));
 };

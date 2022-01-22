@@ -3,16 +3,23 @@
 
     export const load = async ({ params, fetch }) => {
         const res = await fetch(params.id + ".json");
-        const product = await res.json();
+        if (res.status == 200) {
 
-        console.log("is now " + JSON.stringify(res))
+            const product = await res.json();
 
-        return {
-            props: {
-                product,
-                loading
-            }
-        };
+            return {
+                props: {
+                    product,
+                    loading
+                }
+            };
+        } else {
+            return {
+                status: res.status,
+                error: new Error('This product does not exist. Please check the URL and try again.')
+            };
+        }
+
     };
 </script>
 
@@ -29,9 +36,12 @@
 
     onDestroy(() => {
         loading = true;
-    })
+    });
 </script>
 
+<svelte:head>
+	<title>{product.name}</title>
+</svelte:head>
 
 <div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bare with!</span></div>
 
