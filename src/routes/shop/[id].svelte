@@ -54,7 +54,7 @@
 	<title>{product.name}</title>
 </svelte:head>
 
-<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bare with!</span></div>
+<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
 <container class="container box has-text-centered">
     <section>

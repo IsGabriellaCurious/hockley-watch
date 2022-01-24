@@ -61,7 +61,7 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 	<title>Shop</title>
 </svelte:head>
 
-<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bare with!</span></div>
+<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
 <container>
     <div class="content has-text-centered">
@@ -89,23 +89,23 @@ import ProductFeature from "$lib/ProductFeature.svelte";
         </div>
     </section>
 
-        <!--Clerance-->
-        <section class="section">
-            <section class="hero is-danger is-small">
-                <div class="hero-body">
-                    <p class="title">
-                        Clearance
-                    </p>
-                    <p class="subtitle">
-                        Check out our reduced items for even better value.
-                    </p>
-                </div>
-            </section>
-            <br>
-            <div class="tile is-ancestor">
-                {#each clearance as cl}
-                    <ProductFeature product={cl}/>
-                {/each}
+    <!--Clerance-->
+    <section class="section">
+        <section class="hero is-danger is-small">
+            <div class="hero-body">
+                <p class="title">
+                    Clearance
+                </p>
+                <p class="subtitle">
+                    Check out our reduced items for even better value.
+                </p>
             </div>
         </section>
+        <br>
+        <div class="tile is-ancestor">
+            {#each clearance as cl}
+                <ProductFeature product={cl}/>
+            {/each}
+        </div>
+    </section>
 </container>
