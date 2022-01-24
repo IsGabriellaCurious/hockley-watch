@@ -19,5 +19,11 @@ export interface Product extends BasicProduct {
 	coverimg: string,
 	price: number,
 	reduced: boolean,
-	reduced_price: number;
+	reduced_price: number,
+	purchase_count: number,
+	stock: number;
+}
+
+export interface ProductList {
+	list: Array<Product>;
 }

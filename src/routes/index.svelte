@@ -3,7 +3,11 @@
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		window.location.href = window.location.href + "shop";
+	});
 </script>
 
 <svelte:head>
@@ -12,7 +16,7 @@
 
 <section>
 	<div class="container has-text-centered">
-		Hewo
+		Redirecting...
 	</div>
 
 </section>

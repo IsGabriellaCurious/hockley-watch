@@ -24,6 +24,12 @@ import { onMount } from "svelte";
         loading = false;
     });
 
+    let backLoading = false;
+    function onBackClick() {
+        backLoading = true;
+        history.back();
+    }
+
 </script>
 
 <svelte:head>
@@ -34,5 +40,8 @@ import { onMount } from "svelte";
 
 <container class="container box has-text-centered">
     <h1><strong>{title}</strong></h1><br>
-    <p>{message}</p>
+    <p>{message}</p><br>
+    <button class="button is-primary {backLoading ? "is-loading" : ""}" on:click={onBackClick}>
+        Go Back
+    </button>
 </container>
