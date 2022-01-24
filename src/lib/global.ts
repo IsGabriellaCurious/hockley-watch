@@ -47,7 +47,7 @@ export async function getTopFour(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE stock > 0 ORDER BY purchace_count DESC LIMIT 4`);
+        const result = await conn.query(`SELECT * FROM Products WHERE stock > 0 && reduced = 0 ORDER BY purchace_count DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
@@ -67,7 +67,7 @@ export async function getRandomClearance(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE reduced = 1 ORDER BY RAND() DESC LIMIT 4`);
+        const result = await conn.query(`SELECT * FROM Products WHERE reduced = 1 ORDER BY RAND() DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
