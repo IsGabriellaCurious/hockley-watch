@@ -4,27 +4,20 @@
     export let product: Product;
 
     function redirectProduct(id: number) {
-        window.location.href = window.location.href + "/" + id;
+        window.location.href = window.location.href + "shop/" + id;
     }
 </script>
 
-<div class="tile is-parent product" on:click={() => redirectProduct(product.id)}>
+<div class="tile is-parent product hwe-layout" on:click={() => redirectProduct(product.id)}>
     <article class="tile is-child box">
         <figure class="image">
-            <img src={product.coverimg} alt={product.name} />
+            <img src={product.coverimage} alt={product.name} />
         </figure>
         <br>
         <p class="title">{product.name}</p>
-        <p class="subtitle">by {product.brand}</p>
+        <!--<p class="subtitle">by {product.brand}</p>-->
         <div class="content">
-            {#if !product.reduced}
-                £{product.price}
-            {:else}
-                <span class="discount">£{product.price}</span> £{product.reduced_price}
-            {/if}
-            {#if product.stock <= 10}
-                <p class="stockAlert">ONLY {product.stock} REMAINING!</p>
-            {/if}
+            £{product.price}
         </div>
     </article>
 </div>

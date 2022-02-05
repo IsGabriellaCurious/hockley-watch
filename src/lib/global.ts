@@ -30,9 +30,12 @@ export async function getProductData(id: number): Promise<Product> {
         product = (result as RowDataPacket)[0][0] as Product;
         
         if (!product) {
-            
             return null;
         }
+
+        console.log("imgs is " + product._images);
+        product.images = product._images.split(',');
+        console.log("new is " + product.images);
         
     } catch (e) {
         console.log(e);
@@ -42,12 +45,12 @@ export async function getProductData(id: number): Promise<Product> {
     return product;
 }
 
-export async function getTopFour(): Promise<Array<Product>> {
+export async function getTrending(): Promise<Array<Product>> {
     let conn = await createDB();
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE stock > 0 && reduced = 0 ORDER BY purchace_count DESC LIMIT 3`);
+        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY clicks DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
@@ -62,12 +65,12 @@ export async function getTopFour(): Promise<Array<Product>> {
     return list;
 }
 
-export async function getRandomClearance(): Promise<Array<Product>> {
+export async function getNewIn(): Promise<Array<Product>> {
     let conn = await createDB();
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE reduced = 1 ORDER BY RAND() DESC LIMIT 3`);
+        const result = await conn.query(`SELECT * FROM Products ORDER BY listed DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 

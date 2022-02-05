@@ -14,14 +14,14 @@ export interface BasicProduct {
 
 export interface Product extends BasicProduct {
 	name: string,
-	brand: string,
+	address: string,
 	description: string,
-	coverimg: string,
+	coverimage: string,
+	_images: string,
+	images: string[],
 	price: number,
-	reduced: boolean,
-	reduced_price: number,
-	purchase_count: number,
-	stock: number;
+	clicks: boolean,
+	sold: boolean
 }
 
 export interface ProductList {

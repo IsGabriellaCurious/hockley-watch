@@ -56,25 +56,15 @@
 
 <div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
-<container class="container box has-text-centered">
+<container class="container box has-text-centered hwe-layout">
     <section>
         <figure class="image">
-            <img src={product.coverimg} alt={product.name}/>
+            <img src={product.images[0]} alt={product.address}/>
         </figure>
         <br>
-        <h1><strong>{product.name}</strong> by {product.brand}</h1>
+        <h1><strong>{product.address}</strong></h1>
 
-        {#if product.stock <= 10 && product.stock > 0}
-            <p class="stockAlert">ONLY {product.stock} REMAINING!</p> 
-        {:else if product.stock <= 0}
-            <p class="stockAlert">OUT OF STOCK</p> 
-        {/if}
-
-        {#if !product.reduced}
-            <h1>£{product.price}</h1>
-        {:else}
-            <h1><span class="discount">£{product.price}</span> £{product.reduced_price}</h1>
-        {/if}
+        £{product.price}
 
         <br>
         <p>{product.description}</p>
@@ -82,7 +72,7 @@
     <section class="section">
         <nav class="level">
             <div class="level-item">
-                <button class="button is-primary" on:click={onBasketClick} disabled={product.stock <= 0}>Add to basket</button>
+                <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
             </div>
             <div class="level-item">
                 <button class="button is-link">Save for later</button>

@@ -18,11 +18,11 @@
 	<title>About</title>
 </svelte:head>
 
-<div class="content has-text-centered">
+<div class="content has-text-centered hwe-layout">
 	<h1>About us</h1>
 
 	<p>
-		We love watches! 
+		We hate watches.
 	</p>
 </div>
 
