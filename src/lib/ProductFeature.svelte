@@ -14,10 +14,14 @@
             <img src={product.coverimage} alt={product.name} />
         </figure>
         <br>
-        <p class="title">{product.name}</p>
+        <p class="title">{product.address}</p>
         <!--<p class="subtitle">by {product.brand}</p>-->
         <div class="content">
-            £{product.price}
+            <i class="fas fa-tag"/> <strong>£{product.price / 100}</strong>
+            <br><br>
+            <i class="fas fa-camera"/> Bedrooms: {product.bedrooms}<br>
+            <i class="fas fa-bath"/> Bathrooms: {product.bathrooms}<br>
+            <i class="fab fa-pagelines"/> Garden: {product.garden ? "Yes" : "No"}
         </div>
     </article>
 </div>

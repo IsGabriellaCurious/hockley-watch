@@ -58,7 +58,7 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 </script>
 
 <svelte:head>
-	<title>Shop</title>
+	<title>Surya Real Estate</title>
 </svelte:head>
 
 <div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
@@ -108,5 +108,12 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 			{/each}
 		</div>
 	</section>
+
+    <section class="section">
+        <div class="divider">About Us</div>
+        <p class="has-text-centered">
+            We hate watches.
+        </p>
+    </section>
 
 </container>

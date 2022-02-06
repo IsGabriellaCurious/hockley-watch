@@ -59,12 +59,12 @@
 <container class="container box has-text-centered hwe-layout">
     <section>
         <figure class="image">
-            <img src={product.images[0]} alt={product.address}/>
+            <img src={product.coverimage} alt={product.address}/>
         </figure>
         <br>
         <h1><strong>{product.address}</strong></h1>
 
-        £{product.price}
+        £{product.price / 100}
 
         <br>
         <p>{product.description}</p>

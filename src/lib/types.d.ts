@@ -20,7 +20,10 @@ export interface Product extends BasicProduct {
 	_images: string,
 	images: string[],
 	price: number,
-	clicks: boolean,
+	bedrooms: number,
+	bathrooms: number,
+	garden: boolean,
+	clicks: number,
 	sold: boolean
 }
 

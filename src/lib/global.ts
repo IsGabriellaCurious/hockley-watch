@@ -32,10 +32,6 @@ export async function getProductData(id: number): Promise<Product> {
         if (!product) {
             return null;
         }
-
-        console.log("imgs is " + product._images);
-        product.images = product._images.split(',');
-        console.log("new is " + product.images);
         
     } catch (e) {
         console.log(e);
