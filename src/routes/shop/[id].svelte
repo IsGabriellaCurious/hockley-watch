@@ -50,7 +50,6 @@
 </svelte:head>
 
 <container class="container box hwe-layout">
-    <button class="button is-link is-inverted" on:click={back}>Go Back</button>
     <section class="has-text-centered">
         <figure class="image">
             <img src={product.coverimage} alt={product.address}/>
@@ -69,15 +68,12 @@
         <div class="divider">Description</div>
         <p>{product.description}</p>
     </section>
+
     <section class="section">
-        <nav class="level">
-            <div class="level-item">
-                <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
-            </div>
-            <div class="level-item">
-                <button class="button is-link">Save for later</button>
-            </div>
-        </nav>
+        <div class="buttons is-centered">
+            <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
+            <button class="button is-link">Save for later</button>
+        </div>
     </section>
 </container>
 
