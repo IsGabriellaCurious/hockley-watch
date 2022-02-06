@@ -1,17 +1,12 @@
-<script lang="ts">
-	import { page } from '$app/stores';
-	import logo from './svelte-logo.svg';
-</script>
-
 <header>
 	<nav class="navbar is-link">
 		<div class="navbar-brand">
-			<a class="navbar-item" href="/#">Surya Real Estate</a>
+			<a class="navbar-item" href="/">Surya Real Estate</a>
 		</div>
 
 		<div class="navbar-menu">
 			<div class="navbar-end">
-				<a class="navbar-item" href="/#">Home</a>
+				<a class="navbar-item" href="/">Home</a>
 				<a class="navbar-item" href="/shop">Properties</a>
 				<a class="navbar-item" href="/login">Login</a>
 				<a class="navbar-item" href="/login">

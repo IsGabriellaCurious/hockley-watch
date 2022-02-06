@@ -42,26 +42,16 @@
 </script>
 
 <script lang="ts">
-import ProductFeature from "$lib/ProductFeature.svelte";
+    import ProductFeature from "$lib/ProductFeature.svelte";
 
     export let popular: Array<Product>;
     export let newin: Array<Product>;
-    export let loading: boolean;
 
-    onMount(() => {
-        loading = false;
-    });
-
-    onDestroy(() => {
-        loading = true;
-    });
 </script>
 
 <svelte:head>
 	<title>Surya Real Estate</title>
 </svelte:head>
-
-<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
 <container class="hwe-layout">
     <div class="content has-text-centered">

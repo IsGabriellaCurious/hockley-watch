@@ -29,15 +29,6 @@
     import * as bToast from "bulma-toast";
 
     export let product: Product;
-    export let loading: boolean;
-
-    onMount(() => {
-        loading = false;
-    });
-
-    onDestroy(() => {
-        loading = true;
-    });
 
     function back() {
         history.back();
@@ -57,8 +48,6 @@
 <svelte:head>
 	<title>{product.name}</title>
 </svelte:head>
-
-<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
 <container class="container box hwe-layout">
     <button class="button is-link is-inverted" on:click={back}>Go Back</button>

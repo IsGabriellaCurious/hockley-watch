@@ -46,22 +46,12 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 
     export let popular: Array<Product>;
     export let clearance: Array<Product>;
-    export let loading: boolean;
 
-    onMount(() => {
-        loading = false;
-    });
-
-    onDestroy(() => {
-        loading = true;
-    });
 </script>
 
 <svelte:head>
 	<title>Shop</title>
 </svelte:head>
-
-<div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
 <container class="hwe-layout">
     Soon

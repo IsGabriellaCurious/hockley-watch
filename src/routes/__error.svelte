@@ -18,11 +18,6 @@ import { onMount } from "svelte";
 
     export let title;
     export let message;
-    export let loading;
-
-    onMount(() => {
-        loading = false;
-    });
 
     let backLoading = false;
     function onBackClick() {
@@ -35,8 +30,6 @@ import { onMount } from "svelte";
 <svelte:head>
 	<title>{title}</title>
 </svelte:head>
-
-<div class="pageloader is-danger {loading ? "is-active" : ""}"><span class="title">Getting error data...</span></div>
 
 <container class="container box has-text-centered">
     <h1><strong>{title}</strong></h1><br>
