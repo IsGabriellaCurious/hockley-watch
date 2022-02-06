@@ -22,6 +22,7 @@ export interface Product extends BasicProduct {
 	price: number,
 	bedrooms: number,
 	bathrooms: number,
+	receptions: number,
 	garden: boolean,
 	clicks: number,
 	sold: boolean

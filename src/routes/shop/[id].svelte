@@ -39,6 +39,10 @@
         loading = true;
     });
 
+    function back() {
+        history.back();
+    }
+
     function onBasketClick() {
         bToast.toast({
             message: `${product.name} has been added to your basket!`,
@@ -56,17 +60,24 @@
 
 <div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Bear with!</span></div>
 
-<container class="container box has-text-centered hwe-layout">
-    <section>
+<container class="container box hwe-layout">
+    <button class="button is-link is-inverted" on:click={back}>Go Back</button>
+    <section class="has-text-centered">
         <figure class="image">
             <img src={product.coverimage} alt={product.address}/>
         </figure>
         <br>
         <h1><strong>{product.address}</strong></h1>
 
-        £{product.price / 100}
+        <i class="fas fa-tag"/> £{product.price / 100}
 
-        <br>
+        <div class="divider">At a Glance</div>
+        <i class="fas fa-bed"/> Bedrooms: {product.bedrooms}<br>
+        <i class="fas fa-bath"/> Bathrooms: {product.bathrooms}<br>
+        <i class="fas fa-couch"/> Receptions: {product.receptions}<br>
+        <i class="fab fa-pagelines"/> Garden: {product.garden ? "Yes" : "No"}
+
+        <div class="divider">Description</div>
         <p>{product.description}</p>
     </section>
     <section class="section">

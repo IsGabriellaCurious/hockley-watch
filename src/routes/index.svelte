@@ -66,7 +66,7 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 <container class="hwe-layout">
     <div class="content has-text-centered">
         <h1>Welcome.</h1>
-        <p>Are you ready to find your next house? You're at the right place. Here at Surya, we pride ourselves in our quality listings that are sure to be absoltely perfect for you.</p>
+        <p>Are you ready to find your next home? You're at the right place. Here at Surya, we pride ourselves in our quality listings that are sure to be absoltely perfect for you and your family.</p>
     </div>
 
     <!--New Houses-->
