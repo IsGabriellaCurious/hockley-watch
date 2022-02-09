@@ -28,6 +28,7 @@ export interface Product extends BasicProduct {
 	receptions: number,
 	garden: boolean,
 	pets: boolean,
+	pets_info: string,
 	clicks: number,
 	sold: boolean
 }

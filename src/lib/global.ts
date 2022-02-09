@@ -48,7 +48,7 @@ export async function getTrending(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY clicks DESC LIMIT 3`);
+        const result = await conn.query(`SELECT coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY clicks DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
@@ -72,7 +72,7 @@ export async function getNewIn(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY listed DESC LIMIT 3`);
+        const result = await conn.query(`SELECT coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY listed DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 

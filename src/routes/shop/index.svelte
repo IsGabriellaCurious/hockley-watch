@@ -50,7 +50,7 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 </script>
 
 <svelte:head>
-	<title>Shop</title>
+	<title>Properties | Surya Real Estate</title>
 </svelte:head>
 
 <container class="hwe-layout">

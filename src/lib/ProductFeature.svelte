@@ -20,7 +20,7 @@
 <div class="tile is-parent product hwe-layout" on:click={() => redirectProduct(product.id)}>
     <article class="tile is-child box">
         <figure class="image">
-            <img src={product.coverimage} alt={product.name} />
+            <img src={product.coverimage} alt={propertyName} />
         </figure>
         <br>
         <p class="title">{propertyName}</p>

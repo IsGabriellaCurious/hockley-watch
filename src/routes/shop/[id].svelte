@@ -79,6 +79,12 @@
 
         <div class="divider">Description</div>
         <p>{product.description}</p>
+        
+        {#if product.rent}
+            <br>
+            <div class="divider">Pet Info</div>
+            <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
+        {/if}
     </section>
 
     <section class="section">
