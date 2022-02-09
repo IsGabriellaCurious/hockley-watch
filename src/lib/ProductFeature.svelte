@@ -1,7 +1,16 @@
 <script lang="ts">
-    import type { Product } from "./types";
+    import { onMount } from "svelte";
+
+    import { generatePropertyName } from "$lib/browserfuncs";
+    import type { Product } from "$lib/types";
 
     export let product: Product;
+
+    export let propertyName: string = "loading";
+
+    onMount(() => {
+        propertyName = generatePropertyName(product);
+    });
 
     function redirectProduct(id: number) {
         window.location.href = window.location.href + "shop/" + id;
@@ -14,24 +23,30 @@
             <img src={product.coverimage} alt={product.name} />
         </figure>
         <br>
-        <p class="title">{product.address}</p>
-        <!--<p class="subtitle">by {product.brand}</p>-->
+        <p class="title">{propertyName}</p>
+        <p class="subtitle">{product.address}</p>
         <div class="content">
-            <i class="fas fa-tag"/> <strong>£{product.price / 100}</strong>
+            <i class="fa-solid fa-tag"/> <strong>£{product.price}</strong> {product.rent ? "/month" : ""}
             <br><br>
 
             <span class="has-tooltip-arrow" data-tooltip="{product.bedrooms} bedrooms.">
-                <i class="fas fa-bed"/> {product.bedrooms}
+                <i class="fa-solid fa-bed"/> {product.bedrooms}
             </span>
             &nbsp;&nbsp;<span class="has-tooltip-arrow" data-tooltip="{product.bathrooms} bathrooms.">
-                <i class="fas fa-bath"/> {product.bathrooms}
+                <i class="fa-solid fa-bath"/> {product.bathrooms}
             </span>
             &nbsp;&nbsp;<span class="has-tooltip-arrow" data-tooltip="{product.receptions} receptions.">
-                <i class="fas fa-couch"/> {product.receptions}
+                <i class="fa-solid fa-couch"/> {product.receptions}
             </span>
             &nbsp;&nbsp;<span class="has-tooltip-arrow" data-tooltip="{product.garden ? "This property has a garden." : "This property does not have a garden."}">
-                <i class="fab fa-pagelines"/> {product.garden ? "Yes" : "No"}
+                <i class="fa-brands fa-pagelines"/> {product.garden ? "Yes" : "No"}
             </span>
+
+            {#if product.rent}
+                &nbsp;&nbsp;<span class="has-tooltip-arrow" data-tooltip="{product.pets ? "This property allows pets." : "This property does not allow pets."}">
+                    <i class="fa-solid fa-cat"/> {product.pets ? "Yes" : "No"}
+                </span>
+            {/if}
         </div>
     </article>
 </div>

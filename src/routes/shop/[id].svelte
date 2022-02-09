@@ -24,11 +24,19 @@
 </script>
 
 <script lang="ts">
+    import { generatePropertyName } from "$lib/browserfuncs";
+
     import type { Product } from "$lib/types";
-    import { onDestroy, onMount } from "svelte";
     import * as bToast from "bulma-toast";
+    import { onMount } from "svelte";
 
     export let product: Product;
+
+    export let propertyName: string = "loaing";
+
+    onMount(() => {
+        propertyName = generatePropertyName(product);
+    })
 
     function back() {
         history.back();
@@ -46,7 +54,7 @@
 </script>
 
 <svelte:head>
-	<title>{product.name}</title>
+	<title>{propertyName} | Surya Real Estate</title>
 </svelte:head>
 
 <container class="container box hwe-layout">
@@ -55,15 +63,19 @@
             <img src={product.coverimage} alt={product.address}/>
         </figure>
         <br>
-        <h1><strong>{product.address}</strong></h1>
+        <h1><strong>{propertyName}</strong></h1>
+        {product.address}<br><br>
 
-        <i class="fas fa-tag"/> £{product.price / 100}
+        <i class="fas fa-tag"/> £{product.price} {product.rent ? "/month" : ""}
 
         <div class="divider">At a Glance</div>
         <i class="fas fa-bed"/> Bedrooms: {product.bedrooms}<br>
         <i class="fas fa-bath"/> Bathrooms: {product.bathrooms}<br>
         <i class="fas fa-couch"/> Receptions: {product.receptions}<br>
         <i class="fab fa-pagelines"/> Garden: {product.garden ? "Yes" : "No"}
+        {#if product.rent}
+            <br><i class="fa-solid fa-cat"/> Pets: {product.pets ? "Yes" : "No"}
+        {/if}
 
         <div class="divider">Description</div>
         <p>{product.description}</p>

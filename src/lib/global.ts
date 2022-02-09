@@ -4,7 +4,7 @@ import type { Product } from "./types";
 dotenv.config();
 
 // Utils
-function formatPrice(price: number): string {
+export function formatPrice(price: number): string {
     let output = `£${price.toFixed(2)}`
     console.log(output);
     return output;
@@ -32,6 +32,8 @@ export async function getProductData(id: number): Promise<Product> {
         if (!product) {
             return null;
         }
+
+        product.price = product.price / 100;
         
     } catch (e) {
         console.log(e);
@@ -52,6 +54,10 @@ export async function getTrending(): Promise<Array<Product>> {
 
         if (!list)
             return null;
+
+        list.forEach((prod) => {
+            prod.price = prod.price / 100;
+        });
     } catch (e) {
         console.log(e);
     } finally {
@@ -66,12 +72,16 @@ export async function getNewIn(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT * FROM Products ORDER BY listed DESC LIMIT 3`);
+        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY listed DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
         if (!list)
             return null;
+
+        list.forEach((prod) => {
+            prod.price = prod.price / 100;
+        });
     } catch (e) {
         console.log(e);
     } finally {

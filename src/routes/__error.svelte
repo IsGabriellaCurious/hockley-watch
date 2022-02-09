@@ -28,7 +28,7 @@ import { onMount } from "svelte";
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+	<title>{title} | Surya Real Estate</title>
 </svelte:head>
 
 <container class="container box has-text-centered">

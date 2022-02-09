@@ -13,6 +13,9 @@ export interface BasicProduct {
 }
 
 export interface Product extends BasicProduct {
+	type: number, // 0 - house, 1 - flat, 2 - bungalo
+	rent: boolean,
+	new: boolean,
 	name: string,
 	address: string,
 	description: string,
@@ -24,6 +27,7 @@ export interface Product extends BasicProduct {
 	bathrooms: number,
 	receptions: number,
 	garden: boolean,
+	pets: boolean,
 	clicks: number,
 	sold: boolean
 }

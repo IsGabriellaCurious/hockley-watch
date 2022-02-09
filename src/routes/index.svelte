@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-	<title>Surya Real Estate</title>
+	<title>Home | Surya Real Estate</title>
 </svelte:head>
 
 <container class="hwe-layout">
