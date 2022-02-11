@@ -1,51 +1,42 @@
 <script context="module" lang="ts">
     import type { Product } from "$lib/types";
-    import { onMount, onDestroy } from "svelte";
 
     let loading = true;
 
-    /*export const load = async ({ params, fetch }) => {
-        const resBS = await fetch("/shop/popular.json");
-        let popular: Array<Product>;
-        let clearance: Array<Product>;
-        if (resBS.status == 200) {
+    export const load = async ({ params, fetch }) => {
+        const res = await fetch("/shop/listings.json");
+        let prodList: Array<Product>;
+        var arrays: Array<Array<Product>> = [];
+        if (res.status == 200) {
 
-            popular = await resBS.json();
+            prodList = await res.json();
 
-        } else {
-            return {
-                status: 500,
-                error: new Error(`There was an error processing your request. Please try again later. (C:PL ${resBS.status})`)
-            };
-        }
-
-        const resCL = await fetch("/shop/clearance.json");
-        if (resCL.status == 200) {
-
-            clearance = await resCL.json();
+            for (let i = 0; i < prodList.length; i += 4) {
+                arrays.push(prodList.slice(i, i + 4));
+            }
 
         } else {
             return {
                 status: 500,
-                error: new Error(`There was an error processing your request. Please try again later. (C:CL ${resCL.status})`)
+                error: new Error(`There was an error processing your request. Please try again later. (${res.status})`)
             };
         }
 
         return {
             props: {
-                popular,
-                clearance,
+                prodList,
+                arrays,
                 loading
             }
         }
-    };*/
+    };
 </script>
 
 <script lang="ts">
-import ProductFeature from "$lib/ProductFeature.svelte";
+    import ProductFeature from "$lib/ProductFeature.svelte";
 
-    export let popular: Array<Product>;
-    export let clearance: Array<Product>;
+    var prodList: Array<Product>;
+    var arrays: Array<Array<Product>>;
 
 </script>
 
@@ -54,5 +45,13 @@ import ProductFeature from "$lib/ProductFeature.svelte";
 </svelte:head>
 
 <container class="hwe-layout">
-    Soon
+    <section class="section">
+        {#each arrays as set}
+            <div class="tile is-ancestor">
+                {#each set as p}
+                    <ProductFeature product={p}/>
+                {/each}
+            </div>
+        {/each}
+    </section>
 </container>

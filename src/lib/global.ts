@@ -90,3 +90,27 @@ export async function getNewIn(): Promise<Array<Product>> {
 
     return list;
 }
+
+export async function getAll(): Promise<Array<Product>> {
+    let conn = await createDB();
+    let list: Array<Product>;
+
+    try {
+        const result = await conn.query(`SELECT coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY listed`);
+
+        list = (result as RowDataPacket)[0]
+
+        if (!list)
+            return null;
+
+        list.forEach((prod) => {
+            prod.price = prod.price / 100;
+        });
+    } catch (e) {
+        console.log(e);
+    } finally {
+        conn.end();
+    }
+
+    return list;
+}
