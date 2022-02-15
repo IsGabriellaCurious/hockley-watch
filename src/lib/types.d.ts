@@ -8,11 +8,8 @@ export interface Locals {
 	userid: string;
 }
 
-export interface BasicProduct {
-	id: number;
-}
-
 export interface Product extends BasicProduct {
+	id: number,
 	type: number, // 0 - house, 1 - flat, 2 - bungalo
 	rent: boolean,
 	new: boolean,

@@ -5,6 +5,7 @@
     import type { Product } from "$lib/types";
 
     export let product: Product;
+    export let clickPrefix: string = "/"
 
     export let propertyName: string = "loading";
 
@@ -13,11 +14,11 @@
     });
 
     function redirectProduct(id: number) {
-        window.location.href = window.location.href + "shop/" + id;
+        window.location.href = window.location.href + clickPrefix + id;
     }
 </script>
 
-<div class="tile is-parent product hwe-layout" on:click={() => redirectProduct(product.id)}>
+<div class="column is-one-third product hwe-layout" on:click={() => redirectProduct(product.id)}>
     <article class="tile is-child box">
         <figure class="image">
             <img src={product.coverimage} alt={propertyName} />

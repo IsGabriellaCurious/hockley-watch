@@ -72,9 +72,9 @@
             </div>
         </section>
         <br>
-        <div class="tile is-ancestor">
+        <div class="columns">
             {#each newin as p}
-                <ProductFeature product={p}/>
+                <ProductFeature product={p} clickPrefix="shop/"/>
             {/each}
         </div>
     </section>
@@ -92,9 +92,9 @@
 			</div>
 		</section>
 		<br>
-		<div class="tile is-ancestor">
+		<div class="columns">
 			{#each popular as p}
-				<ProductFeature product={p}/>
+				<ProductFeature product={p} clickPrefix="shop/"/>
 			{/each}
 		</div>
 	</section>

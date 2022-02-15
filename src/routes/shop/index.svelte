@@ -6,14 +6,11 @@
     export const load = async ({ params, fetch }) => {
         const res = await fetch("/shop/listings.json");
         let prodList: Array<Product>;
-        var arrays: Array<Array<Product>> = [];
         if (res.status == 200) {
 
             prodList = await res.json();
 
-            /*for (let i = 0; i < prodList.length; i += 4) {
-                arrays.push(prodList.slice(i, i + 4));
-            }*/
+            //console.log(prodList);
 
         } else {
             return {
@@ -25,7 +22,6 @@
         return {
             props: {
                 prodList,
-                arrays,
                 loading
             }
         }
@@ -35,8 +31,7 @@
 <script lang="ts">
     import ProductFeature from "$lib/ProductFeature.svelte";
 
-    let prodList: Array<Product>;
-    var arrays: Array<Array<Product>>;
+    export let prodList: Array<Product>;
 
 </script>
 
@@ -45,8 +40,12 @@
 </svelte:head>
 
 <container class="hwe-layout">
+    <div class="content has-text-centered">
+        <h1>Browse our homes.</h1>
+        <p>Browse our quality listings, use the filters to find the perfect home for you.</p>
+    </div>
     <section class="section">
-            <div class="tile is-ancestor">
+        <div class="columns is-multiline">
             {#each prodList as p}
                 <ProductFeature product={p}/>
             {/each}
