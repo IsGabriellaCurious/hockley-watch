@@ -11,9 +11,9 @@
 
             prodList = await res.json();
 
-            for (let i = 0; i < prodList.length; i += 4) {
+            /*for (let i = 0; i < prodList.length; i += 4) {
                 arrays.push(prodList.slice(i, i + 4));
-            }
+            }*/
 
         } else {
             return {
@@ -35,7 +35,7 @@
 <script lang="ts">
     import ProductFeature from "$lib/ProductFeature.svelte";
 
-    var prodList: Array<Product>;
+    let prodList: Array<Product>;
     var arrays: Array<Array<Product>>;
 
 </script>
@@ -46,12 +46,10 @@
 
 <container class="hwe-layout">
     <section class="section">
-        {#each arrays as set}
             <div class="tile is-ancestor">
-                {#each set as p}
-                    <ProductFeature product={p}/>
-                {/each}
-            </div>
-        {/each}
+            {#each prodList as p}
+                <ProductFeature product={p}/>
+            {/each}
+        </div>
     </section>
 </container>
