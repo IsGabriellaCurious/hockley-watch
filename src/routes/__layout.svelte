@@ -27,11 +27,11 @@
 <div class="pageloader is-link {loading ? "is-active" : ""}"><span class="title">Taking the bins out...</span></div>
 
 <Header />
-
+<br>
 <main>
 	<slot />
 </main>
-
+<br>
 <footer class="footer">
 	<div class="content has-text-centered">
 		<p>Copyright © Surya Real Estate 2022
