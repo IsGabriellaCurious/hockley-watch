@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { beforeUpdate } from "svelte";
 
     import { generatePropertyName } from "$lib/browserfuncs";
     import type { Product } from "$lib/types";
@@ -9,8 +9,8 @@
 
     export let propertyName: string = "loading";
 
-    onMount(() => {
-        propertyName = generatePropertyName(product);
+    beforeUpdate(() => {
+        propertyName = generatePropertyName(product, false);
     });
 
     function redirectProduct(id: number) {
@@ -21,6 +21,9 @@
 <div class="column is-one-third product hwe-layout" on:click={() => redirectProduct(product.id)}>
     <article class="tile is-child box">
         <figure class="image">
+            {#if product.new}
+                <span title="Badge top right" class="badge">NEW PROPERTY</span>
+            {/if}
             <img src={product.coverimage} alt={propertyName} />
         </figure>
         <br>
@@ -44,7 +47,7 @@
             </span>
 
             {#if product.rent}
-                &nbsp;&nbsp;<span class="has-tooltip-arrow" data-tooltip="{product.pets ? "This property allows pets." : "This property does not allow pets."}">
+                <br><span class="has-tooltip-arrow" data-tooltip="{product.pets ? "This property allows pets: " + product.pets_info : "This property does not allow pets."}">
                     <i class="fa-solid fa-cat"/> {product.pets ? "Yes" : "No"}
                 </span>
             {/if}

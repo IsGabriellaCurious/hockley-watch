@@ -48,7 +48,7 @@ export async function getTrending(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT id, coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY clicks DESC LIMIT 3`);
+        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY clicks DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
@@ -72,7 +72,7 @@ export async function getNewIn(): Promise<Array<Product>> {
     let list: Array<Product>;
 
     try {
-        const result = await conn.query(`SELECT id, coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY listed DESC LIMIT 3`);
+        const result = await conn.query(`SELECT * FROM Products WHERE !sold ORDER BY listed DESC LIMIT 3`);
 
         list = (result as RowDataPacket)[0]
 
@@ -91,12 +91,23 @@ export async function getNewIn(): Promise<Array<Product>> {
     return list;
 }
 
-export async function getAll(): Promise<Array<Product>> {
+export async function getAll(type: number, priceFilter: String): Promise<Array<Product>> {
     let conn = await createDB();
     let list: Array<Product>;
 
+    let typeQuery = "";
+    if (type && !isNaN(type)) {
+        typeQuery = "&& type = " + type + " ";
+    }
+
+    let priceQuery = "listed";
+    if (priceFilter) {
+        if (priceFilter == "high") priceQuery =  "price DESC"
+        else if (priceFilter == "low") priceQuery = "price"
+    }
+
     try {
-        const result = await conn.query(`SELECT id, coverimage, address, price, rent, bedrooms, bathrooms, receptions, garden, pets FROM Products WHERE !sold ORDER BY listed`);
+        const result = await conn.query(`SELECT * FROM Products WHERE !sold ` + typeQuery + `ORDER BY ` + priceQuery);
 
         list = (result as RowDataPacket)[0]
 

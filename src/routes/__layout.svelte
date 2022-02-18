@@ -4,6 +4,7 @@
 	import 'bulma-extensions/bulma-pageloader/dist/css/bulma-pageloader.min.css'
 	import "@creativebulma/bulma-divider/dist/bulma-divider.min.css";
 	import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
+	import "@creativebulma/bulma-badge/dist/bulma-badge.min.css";
 	import 'animate.css/animate.min.css';
 	import '../app.css';
 	import { onDestroy, onMount } from 'svelte';
@@ -30,3 +31,11 @@
 <main>
 	<slot />
 </main>
+
+<footer class="footer">
+	<div class="content has-text-centered">
+		<p>Copyright © Surya Real Estate 2022
+			<br>Created with ❤️
+		</p>
+	</div>
+</footer>

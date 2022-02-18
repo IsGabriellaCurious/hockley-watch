@@ -30,6 +30,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@creativebulma/bulma-badge": "^1.0.1",
     "@creativebulma/bulma-tooltip": "^1.2.0",
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",

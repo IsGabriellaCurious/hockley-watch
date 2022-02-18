@@ -10,8 +10,6 @@
 
             prodList = await res.json();
 
-            //console.log(prodList);
-
         } else {
             return {
                 status: 500,
@@ -33,6 +31,25 @@
 
     export let prodList: Array<Product>;
 
+    let activeClass = "is-link is-active";
+    let type: number = null;
+    let priceFilter: string = null;
+
+    async function update() {
+        const res = await fetch("/shop/listings.json?type=" + type + "&priceFilter=" + priceFilter);
+        prodList = await res.json();
+    }
+    
+    function typeUpdate(_type: number) {
+        type = _type;
+        update();
+    }
+
+    function priceFilterUpdate(_priceFilter: string) {
+        priceFilter = _priceFilter;
+        update();
+    }
+
 </script>
 
 <svelte:head>
@@ -44,7 +61,20 @@
         <h1>Browse our homes.</h1>
         <p>Browse our quality listings, use the filters to find the perfect home for you.</p>
     </div>
-    <section class="section">
+    <div class="container">
+        <div class="buttons has-addons ">
+            <button class="button {type == null ? activeClass : ""}" on:click={() => typeUpdate(null)}>All</button>
+            <button class="button {type == 0 ? activeClass : ""}" on:click={() => typeUpdate(0)}>House</button>
+            <button class="button {type == 1 ? activeClass : ""}" on:click={() => typeUpdate(1)}>Flat</button>
+            <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>Bungalo</button>
+        </div>
+        <div class="buttons has-addons is-right">
+            <button class="button {priceFilter == null ? activeClass : ""}" on:click={() => priceFilterUpdate(null)}>Newest</button>
+            <button class="button {priceFilter == "high" ? activeClass : ""}" on:click={() => priceFilterUpdate("high")}>High-to-low</button>
+            <button class="button {priceFilter == "low" ? activeClass : ""}" on:click={() => priceFilterUpdate("low")}>Low-to-high</button>
+        </div>
+    </div>
+    <section class="section box">
         <div class="columns is-multiline">
             {#each prodList as p}
                 <ProductFeature product={p}/>
