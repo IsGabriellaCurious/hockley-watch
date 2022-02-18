@@ -61,19 +61,19 @@
         <h1>Browse our homes.</h1>
         <p>Browse our quality listings, use the filters to find the perfect home for you.</p>
     </div>
-    <div class="container">
-        <div class="buttons has-addons ">
+    <nav class="level">
+        <div class="buttons has-addons level-item">
             <button class="button {type == null ? activeClass : ""}" on:click={() => typeUpdate(null)}>All</button>
             <button class="button {type == 0 ? activeClass : ""}" on:click={() => typeUpdate(0)}>House</button>
             <button class="button {type == 1 ? activeClass : ""}" on:click={() => typeUpdate(1)}>Flat</button>
             <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>Bungalo</button>
         </div>
-        <div class="buttons has-addons is-right">
+        <div class="buttons has-addons is-right level-item">
             <button class="button {priceFilter == null ? activeClass : ""}" on:click={() => priceFilterUpdate(null)}>Newest</button>
             <button class="button {priceFilter == "high" ? activeClass : ""}" on:click={() => priceFilterUpdate("high")}>High-to-low</button>
             <button class="button {priceFilter == "low" ? activeClass : ""}" on:click={() => priceFilterUpdate("low")}>Low-to-high</button>
         </div>
-    </div>
+    </nav>
     <section class="section box">
         <div class="columns is-multiline">
             {#each prodList as p}

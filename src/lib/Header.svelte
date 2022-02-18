@@ -8,10 +8,10 @@
 			<div class="navbar-end">
 				<a class="navbar-item" href="/">Home</a>
 				<a class="navbar-item" href="/shop">Properties</a>
-				<a class="navbar-item" href="/login">Login</a>
+				<a class="navbar-item" href="/contact">Contact</a>
 				<a class="navbar-item" href="/login">
 					<button class="button is-primary">
-						Sign Up
+						Account
 					</button>
 				</a>
 			</div>

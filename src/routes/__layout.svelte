@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
+	import Header from '$lib/Header.svelte';
 	import 'bulma/css/bulma.min.css';
 	import 'bulma-extensions/bulma-pageloader/dist/css/bulma-pageloader.min.css'
 	import "@creativebulma/bulma-divider/dist/bulma-divider.min.css";
