@@ -4,7 +4,7 @@
     let loading = true;
 
     export const load = async ({ params, fetch }) => {
-        const res = await fetch("/shop/listings.json");
+        const res = await fetch("/backend/shop/listings.json");
         let prodList: Array<Product>;
         if (res.status == 200) {
 
@@ -36,7 +36,7 @@
     let priceFilter: string = null;
 
     async function update() {
-        const res = await fetch("/shop/listings.json?type=" + type + "&priceFilter=" + priceFilter);
+        const res = await fetch("/backend/shop/listings.json?type=" + type + "&priceFilter=" + priceFilter);
         prodList = await res.json();
     }
     

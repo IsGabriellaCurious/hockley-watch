@@ -22,7 +22,7 @@
     <article class="tile is-child box">
         <figure class="image">
             {#if product.new}
-                <span title="Badge top right" class="badge">NEW PROPERTY</span>
+                <span title="Badge top right" class="badge">NEWLY BUILT</span>
             {/if}
             <img src={product.coverimage} alt={propertyName} />
         </figure>

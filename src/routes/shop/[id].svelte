@@ -2,7 +2,7 @@
     let loading = true;
 
     export const load = async ({ params, fetch }) => {
-        const res = await fetch(params.id + ".json");
+        const res = await fetch("/backend/shop/" + params.id + ".json");
         if (res.status == 200) {
 
             const product = await res.json();

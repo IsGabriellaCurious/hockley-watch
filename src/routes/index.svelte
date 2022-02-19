@@ -5,7 +5,7 @@
     let loading = true;
 
     export const load = async ({ params, fetch }) => {
-        const resBS = await fetch("/shop/popular.json");
+        const resBS = await fetch("/backend/shop/popular.json");
         let popular: Array<Product>;
         let newin: Array<Product>;
         if (resBS.status == 200) {
@@ -19,7 +19,7 @@
             };
         }
 
-        const resNI = await fetch("/shop/newin.json");
+        const resNI = await fetch("/backend/shop/newin.json");
         if (resNI.status == 200) {
 
             newin = await resNI.json();
@@ -98,12 +98,4 @@
 			{/each}
 		</div>
 	</section>
-
-    <section class="section">
-        <div class="divider">About Us</div>
-        <p class="has-text-centered">
-            We hate watches.
-        </p>
-    </section>
-
 </container>

@@ -1,3 +1,70 @@
+<script lang="ts">
+    import * as bToast from "bulma-toast";
+
+    let email = "";
+    let message = "";
+
+    let emailStatus = "";
+    let messageStatus = "";
+
+    let submitting = false;
+
+    async function submit() {
+        submitting = true;
+
+        if (!email || !message) {
+
+            if (!email) emailStatus = "is-danger";
+            if (!message) messageStatus = "is-danger";
+
+            bToast.toast({
+                message: "You have not completed the form. Please fill in all the boxes.",
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 10000
+            });  
+            
+            submitting = false;
+            return;
+        }
+
+        const req = await fetch('/backend/submitcontact', {
+            method: 'POST',
+            body: JSON.stringify({
+                'email': email,
+                'message': message
+            })
+        });
+
+        const res = await req.json();
+
+        let type: bToast.ToastType = 'is-danger';
+        if (res.status == 200) {
+            type = 'is-success';
+
+            email = "";
+            message = "";
+
+            emailStatus = "";
+            messageStatus = "";
+        } else {
+            type = 'is-danger';
+        }
+
+        bToast.toast({
+            message: res.message,
+            type: type,
+            dismissible: true,
+            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+            duration: 10000
+        });  
+        
+        submitting = false;
+    }
+</script>
+
+
 <svelte:head>
 	<title>Contact Us | Surya Real Estate</title>
 </svelte:head>
@@ -12,18 +79,18 @@
     <div class="field">
         <label class="label">Your e-mail</label>
         <div class="control">
-          <input class="input" type="email" placeholder="someone@example.com">
+          <input class="input {emailStatus}" type="email" placeholder="someone@example.com" bind:value={email}>
         </div>
     </div>
       
       <div class="field">
         <label class="label">Message</label>
         <div class="control">
-            <textarea class="textarea" placeholder="I would like to give some feedback..."></textarea>
+            <textarea class="textarea {messageStatus}" placeholder="I would like to give some feedback..." bind:value={message}></textarea>
         </div>
     </div>
 
     <div class="control">
-        <button class="button is-link is-centered">Submit</button>
-    </div>
+        <button class="button is-link is-centered level-item {submitting ? "is-loading" : ""}" on:click={submit}>Submit</button>
+    </div>  
 </container>
