@@ -41,7 +41,7 @@ export async function post({ request }): Promise<EndpointOutput> {
     } else {
         return {
             body: {
-                message: "Your account has been successfully created. Sign in from the login tab to continue."
+                message: "Your account has been successfully created. Please sign in to continue."
             },
             status: 200
         };

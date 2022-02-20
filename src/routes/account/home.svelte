@@ -4,7 +4,7 @@
     export const load = async ({ fetch }) => {
         const res = await fetch("/backend/account/me");
         let myInfo: UserInfo;
-        console.log(res.status)
+
         if (res.status == 200) {
 
             myInfo = await res.json();
@@ -31,10 +31,19 @@
 
 <script lang="ts">
     export let myInfo: UserInfo;
+
+    function logout() {
+        window.location.href = "/backend/account/logout";
+    }
 </script>
+
+<svelte:head>
+	<title>Account Home | Surya Real Estate</title>
+</svelte:head>
 
 <container class="container box hwe-layout">
     <section class="content has-text-centered">
         <h1>Welcome back, {myInfo.firstname}.</h1>
     </section>
+    <button class="button is-warning" on:click={logout}>Logout</button>
 </container>

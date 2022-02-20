@@ -43,13 +43,42 @@
     }
 
     function onBasketClick() {
-        bToast.toast({
-            message: `${product.name} has been added to your basket!`,
-            type: 'is-success',
-            dismissible: true,
-            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
-            duration: 5000
+
+    }
+
+    async function onSaveClick() {
+        const req = await fetch('/backend/shop/save', {
+            method: 'POST',
+            body: JSON.stringify({
+                'id': product.id
+            })
         });
+
+        if (req.status == 200) {
+            bToast.toast({
+                message: `This property has been added to your saved-for-later.`,
+                type: 'is-success',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });
+        } else if (req.status == 400) {
+            bToast.toast({
+                message: `Save error: unknown, contact website administrator and try again later.`,
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });
+        } else if (req.status == 401) {
+            bToast.toast({
+                message: `You must login to do this!`,
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });
+        }
     }
 </script>
 
@@ -90,7 +119,7 @@
     <section class="section">
         <div class="buttons is-centered">
             <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
-            <button class="button is-link">Save for later</button>
+            <button class="button is-link" on:click={onSaveClick}>Save for later</button>
         </div>
     </section>
 </container>

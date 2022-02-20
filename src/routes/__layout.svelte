@@ -34,7 +34,8 @@
 <br>
 <footer class="footer">
 	<div class="content has-text-centered">
-		<p>Copyright © Surya Real Estate 2022
+		<p>
+			Copyright © Surya Real Estate 2022
 			<br>Created with ❤️
 		</p>
 	</div>

@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Account Recovery | Surya Real Estate</title>
+</svelte:head>
+
 <container class="container box hwe-layout">
     <section class="content has-text-centered">
         <h1>Forgotten your password?</h1>

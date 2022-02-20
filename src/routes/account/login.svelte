@@ -1,6 +1,24 @@
+<script context="module" lang="ts">
+    export const load = async ({ url }) => {
+        let paramSuccess = url.searchParams.get('success');
+        let paramMessage = url.searchParams.get('message')
+
+        return {
+            props: {
+                paramSuccess,
+                paramMessage
+            }
+        }
+    };
+</script>
+
 <script lang="ts">
     import { isEmail } from "$lib/sharedfuncs";
     import * as bToast from "bulma-toast";
+    import { onMount } from "svelte";
+
+    export let paramSuccess;
+    export let paramMessage;
 
     let loginSelected = true;
 
@@ -8,15 +26,27 @@
         loginSelected = loginClicked;
     }
 
+    onMount(() => {
+        if (paramSuccess == "true") {
+            bToast.toast({
+                message: paramMessage,
+                type: "is-success",
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+        }
+    });
+
     // Register specific stuff
     let signup_email = "";
-    let signup_email_stuats = "";
+    let signup_email_status = "";
 
     let signup_title = "Please select";
-    let signup_title_stuats = "";
+    let signup_title_status = "";
 
     let signup_firstname = "";
-    let signup_firstname_stuats = "";
+    let signup_firstname_status = "";
 
     let signup_lastname = "";
     let signup_lastname_status = "";
@@ -29,9 +59,27 @@
 
     let signup_submitting = false;
 
+    function regiserStatusSetAll(status: string) {
+        signup_email_status = status;
+        signup_title_status = status;
+        signup_firstname_status = status;
+        signup_lastname_status = status;
+        signup_password_status = status;
+        signup_passwordconfirm_status = status;
+    }
+
     async function onRegisterClick() {
         signup_submitting = true;
+        regiserStatusSetAll("disabled");
+
         if (!signup_email || !signup_title || signup_title == "Please select" || !signup_firstname || !signup_lastname || !signup_password || !signup_passwordconfirm) {
+
+            if (!signup_email) signup_email_status = "is-danger"; else signup_email_status = "";
+            if (!signup_title || signup_title == "Please select") signup_title_status = "is-danger"; else signup_title_status = "";
+            if (!signup_firstname) signup_firstname_status = "is-danger"; else signup_firstname_status = "";
+            if (!signup_lastname) signup_lastname_status = "is-danger"; else signup_lastname_status = "";
+            if (!signup_password) signup_password_status = "is-danger"; else signup_password_status = "";
+            if (!signup_passwordconfirm) signup_passwordconfirm_status = "is-danger"; else signup_passwordconfirm_status = "";
 
             bToast.toast({
                 message: "You have not completed the form. Please fill in all the boxes.",
@@ -55,6 +103,8 @@
                 duration: 5000
             });  
             
+            regiserStatusSetAll("");
+            signup_email_status = "is-danger";
             signup_submitting = false;
             return;
         }
@@ -68,6 +118,9 @@
                 duration: 5000
             });  
             
+            regiserStatusSetAll("");
+            signup_password_status = "is-danger"
+            signup_passwordconfirm_status = "is-danger"
             signup_submitting = false;
             return;
         }
@@ -99,6 +152,9 @@
             duration: 5000
         });  
         
+        regiserStatusSetAll("");
+        if (req.status == 200)
+            window.location.href = "/account/login?success=true&message=" + res.message;
         signup_submitting = false;
     }
 
@@ -241,10 +297,12 @@
                 <label class="label">Email address</label>
                 <div class="control">
                     <input 
-                        class="input" 
+                        class="input {signup_email_status}" 
                         type="email" 
                         placeholder="markjames@mathteacher.edu.uk"
                         bind:value={signup_email}
+                        on:focus={() => { signup_email_status = ""; }}
+                        disabled={signup_email_status == "disabled"}
                     >
                 </div>
             </div>
@@ -252,8 +310,8 @@
             <div class="field">
                 <label class="label">Title</label>
                 <div class="control">
-                    <div class="select">
-                        <select bind:value={signup_title}>
+                    <div class="select {signup_title_status}">
+                        <select bind:value={signup_title} on:focus={() => { signup_title_status = ""; }}>
                             <option disabled selected>Please select</option>
                             <option>Mr.</option>
                             <option>Mrs.</option>
@@ -271,10 +329,12 @@
                 <label class="label">First name</label>
                 <div class="control">
                   <input 
-                    class="input" 
+                    class="input {signup_firstname_status}" 
                     type="text" 
                     placeholder="Mark"
                     bind:value={signup_firstname}
+                    on:focus={() => { signup_firstname_status = ""; }}
+                    disabled={signup_firstname_status == "disabled"}
                   >
                 </div>
             </div>
@@ -283,10 +343,12 @@
                 <label class="label">Last name</label>
                 <div class="control">
                   <input 
-                    class="input" 
+                    class="input {signup_lastname_status}" 
                     type="text" 
                     placeholder="James"
                     bind:value={signup_lastname}
+                    on:focus={() => { signup_lastname_status = ""; }}
+                    disabled={signup_lastname_status == "disabled"}
                   >
                 </div>
             </div>
@@ -295,10 +357,12 @@
                 <label class="label">Password</label>
                 <div class="control">
                   <input 
-                    class="input" 
+                    class="input {signup_password_status}" 
                     type="password" 
                     placeholder="..."
                     bind:value={signup_password}
+                    on:focus={() => { signup_password_status = ""; }}
+                    disabled={signup_password_status == "disabled"}
                   >
                 </div>
             </div>
@@ -307,10 +371,12 @@
                 <label class="label">Confirm your password</label>
                 <div class="control">
                   <input 
-                    class="input" 
+                    class="input {signup_passwordconfirm_status}" 
                     type="password" 
                     placeholder="..."
                     bind:value={signup_passwordconfirm}
+                    on:focus={() => { signup_passwordconfirm_status = ""; }}
+                    disabled={signup_passwordconfirm_status == "disabled"}
                   >
                 </div>
             </div>

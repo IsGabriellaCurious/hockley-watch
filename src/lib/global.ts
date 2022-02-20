@@ -1,5 +1,6 @@
 import mysql, { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
+import * as jwt from "jsonwebtoken";
 import type { Product, UserInfo } from "./types";
 dotenv.config();
 
@@ -124,6 +125,27 @@ export async function getAll(type: number, priceFilter: String): Promise<Array<P
     }
 
     return list;
+}
+
+export async function checkToken(token: string): Promise<string> {
+    if (token == null) {
+        return "notoken"
+    }
+
+    let id;
+    await jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            id = null;
+        } else {
+            id = decoded.id;
+        }    
+    });
+
+    if (id == null) {
+        return "invalid"
+    } else {
+        return "" + id;
+    }
 }
 
 export async function getUserInfo(id: number): Promise<UserInfo> {
