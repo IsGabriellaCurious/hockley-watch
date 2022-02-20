@@ -10,7 +10,7 @@
 				<a class="navbar-item" href="/shop">Properties</a>
 				<a class="navbar-item" href="/about">About Us</a>
 				<a class="navbar-item" href="/contact">Contact</a>
-				<a class="navbar-item" href="/account/login">
+				<a class="navbar-item" href="/account/home">
 					<button class="button is-primary">
 						Account
 					</button>

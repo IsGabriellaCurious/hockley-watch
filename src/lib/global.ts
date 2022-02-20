@@ -1,6 +1,6 @@
 import mysql, { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
-import type { Product } from "./types";
+import type { Product, UserInfo } from "./types";
 dotenv.config();
 
 // Utils
@@ -124,4 +124,24 @@ export async function getAll(type: number, priceFilter: String): Promise<Array<P
     }
 
     return list;
+}
+
+export async function getUserInfo(id: number): Promise<UserInfo> {
+    let conn = await createDB();
+    let user: UserInfo;
+    
+    try {
+        const result = await conn.query(`SELECT * FROM Users WHERE id=?`, id);
+        
+        user = (result as RowDataPacket)[0][0] as UserInfo;
+        
+        if (!user) {
+            return null;
+        }
+    } catch (e) {
+        console.log(e);
+    } finally {
+        conn.end();
+    }
+    return user;
 }

@@ -10,21 +10,96 @@
 
     // Register specific stuff
     let signup_email = "";
+    let signup_email_stuats = "";
 
-    let signup_title = "";
+    let signup_title = "Please select";
+    let signup_title_stuats = "";
 
     let signup_firstname = "";
+    let signup_firstname_stuats = "";
 
     let signup_lastname = "";
+    let signup_lastname_status = "";
 
     let signup_password = "";
+    let signup_password_status = "";
 
     let signup_passwordconfirm = "";
+    let signup_passwordconfirm_status = "";
 
     let signup_submitting = false;
 
-    function onSignupClick() {
+    async function onRegisterClick() {
         signup_submitting = true;
+        if (!signup_email || !signup_title || signup_title == "Please select" || !signup_firstname || !signup_lastname || !signup_password || !signup_passwordconfirm) {
+
+            bToast.toast({
+                message: "You have not completed the form. Please fill in all the boxes.",
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+            
+            signup_submitting = false;
+            return;
+        }
+
+        if (!isEmail(signup_email)) {
+
+            bToast.toast({
+                message: "Please provide a vaild email address.",
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+            
+            signup_submitting = false;
+            return;
+        }
+
+        if (signup_password != signup_passwordconfirm) {
+            bToast.toast({
+                message: "Passwords do not match. Please try again.",
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+            
+            signup_submitting = false;
+            return;
+        }
+
+        const req = await fetch('/backend/account/signup', {
+            method: 'POST',
+            body: JSON.stringify({
+                'email': signup_email,
+                'password': signup_password,
+                'title': signup_title,
+                'firstname': signup_firstname,
+                'lastname': signup_lastname
+            })
+        });
+
+        const res = await req.json();
+
+        let type: bToast.ToastType = 'is-danger';
+
+        if (req.status == 200) {
+            type = 'is-success';
+        }
+
+        bToast.toast({
+            message: res.message,
+            type: type,
+            dismissible: true,
+            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+            duration: 5000
+        });  
+        
+        signup_submitting = false;
     }
 
     // Login specific stuff
@@ -36,7 +111,7 @@
 
     let login_submitting = false;
 
-    function onLoginClick() {
+    async function onLoginClick() {
         login_email_status = "disabled";
         login_password_status = "disabled";
         login_submitting = true;
@@ -73,6 +148,35 @@
             login_submitting = false;
             return;
         }
+
+        const req = await fetch('/backend/account/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                'email': login_email,
+                'password': login_password
+            })
+        });
+
+        const res = await req.json();
+
+        let type: bToast.ToastType = 'is-danger';
+
+        if (req.status == 200) {
+            window.location.href = "/account/home";
+            return;
+        }
+
+        bToast.toast({
+            message: res.message,
+            type: type,
+            dismissible: true,
+            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+            duration: 5000
+        });  
+        
+        login_submitting = false;
+        login_email_status = "";
+        login_password_status = "";
     }
 </script>
 
@@ -140,6 +244,7 @@
                         class="input" 
                         type="email" 
                         placeholder="markjames@mathteacher.edu.uk"
+                        bind:value={signup_email}
                     >
                 </div>
             </div>
@@ -148,7 +253,7 @@
                 <label class="label">Title</label>
                 <div class="control">
                     <div class="select">
-                        <select>
+                        <select bind:value={signup_title}>
                             <option disabled selected>Please select</option>
                             <option>Mr.</option>
                             <option>Mrs.</option>
@@ -169,6 +274,7 @@
                     class="input" 
                     type="text" 
                     placeholder="Mark"
+                    bind:value={signup_firstname}
                   >
                 </div>
             </div>
@@ -180,6 +286,7 @@
                     class="input" 
                     type="text" 
                     placeholder="James"
+                    bind:value={signup_lastname}
                   >
                 </div>
             </div>
@@ -191,6 +298,7 @@
                     class="input" 
                     type="password" 
                     placeholder="..."
+                    bind:value={signup_password}
                   >
                 </div>
             </div>
@@ -202,6 +310,7 @@
                     class="input" 
                     type="password" 
                     placeholder="..."
+                    bind:value={signup_passwordconfirm}
                   >
                 </div>
             </div>
@@ -209,7 +318,7 @@
             <p class="content">By clicking 'Register' you confirm you have read, understood and accept our <a href="/legal/terms">Terms and Conditions</a> and are ready to find your perfect new home.</p>
         
             <div class="control">
-                <button class="button is-link is-centered level-item">Register</button>
+                <button class="button is-link is-centered level-item" on:click={onRegisterClick}>Register</button>
             </div>
         {/if}
     </section>

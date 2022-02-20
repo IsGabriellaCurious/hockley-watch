@@ -39,8 +39,9 @@
     "bulma": "^0.9.3",
     "bulma-extensions": "^6.2.7",
     "bulma-toast": "^2.4.1",
-    "cookie": "^0.4.1",
+    "cookie": "^0.4.2",
     "dotenv": "^14.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "node-sass": "^7.0.1"
   }

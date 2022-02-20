@@ -38,3 +38,16 @@ export interface SignupResult {
 	success: boolean,
 	message: String
 }
+
+export interface LoginResult {
+    id: number
+    password: string,
+}
+
+export interface UserInfo {
+	id: number,
+	email: string,
+	title: string,
+	firstname: string,
+	lastname: string
+}

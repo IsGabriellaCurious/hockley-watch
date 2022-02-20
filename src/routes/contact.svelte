@@ -59,7 +59,7 @@
         const res = await req.json();
 
         let type: bToast.ToastType = 'is-danger';
-        if (res.status == 200) {
+        if (req.status == 200) {
             type = 'is-success';
 
             email = "";

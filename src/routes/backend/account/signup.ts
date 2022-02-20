@@ -3,6 +3,7 @@ import type { SignupResult } from "$lib/types";
 import type { EndpointOutput } from "@sveltejs/kit";
 
 import { scryptSync, randomBytes } from 'crypto';
+import type { RowDataPacket } from "mysql2";
 
 export async function post({ request }): Promise<EndpointOutput> {
     let body = await request.json();
@@ -16,7 +17,7 @@ export async function post({ request }): Promise<EndpointOutput> {
         };
     }
 
-    if (doesEmailExist(body.email)) {
+    if (await doesEmailExist(body.email)) {
         return {
             body: {
                 message: "Signup failed: email in-use."
@@ -51,9 +52,16 @@ async function doesEmailExist(email: String): Promise<boolean> {
     let conn = await createDB();
 
     try {
-        let result = await conn.query(`SELECT * FROM Users WHERE email=?`, email);
+        let result = await conn.query(`SELECT id FROM Users WHERE email=?`, [email]);
 
-        return result != null;
+        let list: Array<any> = (result as RowDataPacket)[0]
+        console.log(list.length);
+
+        if (list.length == 0) {
+            return false;
+        }    
+
+        return true;
     } catch (e) {
         console.log(e);
         return true;
@@ -65,17 +73,10 @@ async function createUser(email: String, password: String, salt: String, title: 
     let pwSaltCombo = salt + ":" + password;
 
     try {
-        const [error, results] = await conn.query(
+        await conn.query(
             `INSERT INTO Users (email, password, title, firstname, lastname) VALUES (?,?,?,?,?)`, 
-            [email, pwSaltCombo, title, firstname, lastname],
+            [email, pwSaltCombo, title, firstname, lastname]
         );
-
-        if (error) {
-            return {
-                success: false,
-                message: "There was an error processing your request. Please try again later."
-            };
-        }
 
         return {
             success: true,
@@ -85,7 +86,9 @@ async function createUser(email: String, password: String, salt: String, title: 
         console.log(e);
         return {
             success: false,
-            message: e
+            message: "Internal error: " + e
         };
+    } finally {
+        conn.end();
     }
 }
