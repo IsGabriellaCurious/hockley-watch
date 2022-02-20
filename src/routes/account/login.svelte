@@ -8,6 +8,25 @@
         loginSelected = loginClicked;
     }
 
+    // Register specific stuff
+    let signup_email = "";
+
+    let signup_title = "";
+
+    let signup_firstname = "";
+
+    let signup_lastname = "";
+
+    let signup_password = "";
+
+    let signup_passwordconfirm = "";
+
+    let signup_submitting = false;
+
+    function onSignupClick() {
+        signup_submitting = true;
+    }
+
     // Login specific stuff
     let login_email = "";
     let login_email_status = "";
@@ -58,7 +77,7 @@
 </script>
 
 <svelte:head>
-	<title>Account Control | Surya Real Estate</title>
+	<title>Access Control | Surya Real Estate</title>
 </svelte:head>
 
 <container class="container box hwe-layout">

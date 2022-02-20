@@ -33,3 +33,8 @@ export interface Product extends BasicProduct {
 export interface ProductList {
 	list: Array<Product>;
 }
+
+export interface SignupResult {
+	success: boolean,
+	message: String
+}
