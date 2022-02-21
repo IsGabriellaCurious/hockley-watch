@@ -46,6 +46,7 @@ export interface LoginResult {
 
 export interface UserInfo {
 	id: number,
+	admin: boolean,
 	email: string,
 	title: string,
 	firstname: string,

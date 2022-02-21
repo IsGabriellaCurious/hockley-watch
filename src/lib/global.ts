@@ -153,7 +153,7 @@ export async function getUserInfo(id: number): Promise<UserInfo> {
     let user: UserInfo;
     
     try {
-        const result = await conn.query(`SELECT id, email, firstname, lastname, saved FROM Users WHERE id=?`, id);
+        const result = await conn.query(`SELECT id, admin, email, firstname, lastname, saved FROM Users WHERE id=?`, id);
         
         user = (result as RowDataPacket)[0][0] as UserInfo;
         
