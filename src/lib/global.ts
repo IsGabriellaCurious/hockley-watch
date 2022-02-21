@@ -153,7 +153,7 @@ export async function getUserInfo(id: number): Promise<UserInfo> {
     let user: UserInfo;
     
     try {
-        const result = await conn.query(`SELECT * FROM Users WHERE id=?`, id);
+        const result = await conn.query(`SELECT id, email, firstname, lastname, saved FROM Users WHERE id=?`, id);
         
         user = (result as RowDataPacket)[0][0] as UserInfo;
         
@@ -166,4 +166,19 @@ export async function getUserInfo(id: number): Promise<UserInfo> {
         conn.end();
     }
     return user;
+}
+
+export async function userUpdateSaved(info: UserInfo): Promise<boolean> {
+    let conn = await createDB();
+
+    try {
+        await conn.query(`UPDATE Users SET saved = ? WHERE id = ?`, [JSON.stringify(info.saved), info.id]);
+
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    } finally {
+        conn.end();
+    }
 }

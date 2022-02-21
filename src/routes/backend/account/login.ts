@@ -46,7 +46,7 @@ export async function post({ request }): Promise<EndpointOutput> {
         const headers = {
             'Set-Cookie': cookie.serialize("auth", token, {
                 httpOnly: true,
-                maxAge: maxTokenAge * 10000,
+                maxAge: maxTokenAge,
                 sameSite: 'strict',
                 path: '/'
             })

@@ -2,14 +2,22 @@ import * as cookie from "cookie"
 import type { EndpointOutput } from "@sveltejs/kit";
 import { checkToken, getUserInfo } from "$lib/global";
 
-export async function get({ request }): Promise<EndpointOutput> {
+export async function get({ request, url }): Promise<EndpointOutput> {
+    let redirectOnFail: boolean = url.searchParams.get('redirectonfail');
+    if (redirectOnFail == null)
+        redirectOnFail = true;
+
+
     const cookies = cookie.parse(request.headers.get("cookie") || '');
     
     let authResult = await checkToken(cookies.auth);
 
     if (authResult == "notoken" || authResult == "invalid") {
         return {
-            status: 302
+            body: {
+                message: authResult
+            },
+            status: redirectOnFail ? 302 : 401
         }
     }
 

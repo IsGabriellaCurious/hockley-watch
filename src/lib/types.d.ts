@@ -34,9 +34,9 @@ export interface ProductList {
 	list: Array<Product>;
 }
 
-export interface SignupResult {
+export interface BasicResult {
 	success: boolean,
-	message: String
+	message: string
 }
 
 export interface LoginResult {
@@ -49,5 +49,6 @@ export interface UserInfo {
 	email: string,
 	title: string,
 	firstname: string,
-	lastname: string
+	lastname: string,
+	saved: Array<number>
 }

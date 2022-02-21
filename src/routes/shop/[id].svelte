@@ -26,7 +26,7 @@
 <script lang="ts">
     import { generatePropertyName } from "$lib/browserfuncs";
 
-    import type { Product } from "$lib/types";
+    import type { BasicResult, Product } from "$lib/types";
     import * as bToast from "bulma-toast";
     import { onMount } from "svelte";
 

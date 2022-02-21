@@ -1,5 +1,5 @@
 import { createDB } from "$lib/global";
-import type { SignupResult } from "$lib/types";
+import type { BasicResult } from "$lib/types";
 import type { EndpointOutput } from "@sveltejs/kit";
 
 import { scryptSync, randomBytes } from 'crypto';
@@ -29,7 +29,7 @@ export async function post({ request }): Promise<EndpointOutput> {
     const salt = randomBytes(16).toString('hex');
     let hashedPassword = scryptSync(body.password, salt, 64).toString('hex');
 
-    let result: SignupResult = await createUser(body.email, hashedPassword, salt, body.title, body.firstname, body.lastname);
+    let result: BasicResult = await createUser(body.email, hashedPassword, salt, body.title, body.firstname, body.lastname);
 
     if (!result.success) {
         return {
@@ -68,7 +68,7 @@ async function doesEmailExist(email: String): Promise<boolean> {
     }
 }
 
-async function createUser(email: String, password: String, salt: String, title: String, firstname: String, lastname: String): Promise<SignupResult> {
+async function createUser(email: String, password: String, salt: String, title: String, firstname: String, lastname: String): Promise<BasicResult> {
     let conn = await createDB();
     let pwSaltCombo = salt + ":" + password;
 

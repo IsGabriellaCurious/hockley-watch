@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
-    import type { Product } from "$lib/types";
-    import { onMount, onDestroy } from "svelte";
+    import type { Product, UserInfo } from "$lib/types";
 
     let loading = true;
 
@@ -43,9 +42,22 @@
 
 <script lang="ts">
     import ProductFeature from "$lib/ProductFeature.svelte";
+import { onMount } from "svelte";
 
     export let popular: Array<Product>;
     export let newin: Array<Product>;
+
+    let userinfo: UserInfo;
+
+	onMount(async () => {
+		const req = await fetch('/backend/account/me?redirectonfail=false');
+
+		if (req.status == 200) {
+			userinfo = await req.json() as UserInfo;
+		} else {
+			userinfo = null;
+		}
+	});
 
 </script>
 
@@ -55,7 +67,7 @@
 
 <container class="hwe-layout">
     <div class="content has-text-centered">
-        <h1>Welcome.</h1>
+        <h1>{!userinfo ? "Welcome." : "Welcome back, " + userinfo.firstname + "."}</h1>
         <p>Are you ready to find your next home? You're at the right place. Here at Surya, we pride ourselves in our quality listings that are sure to be absoltely perfect for you and your family.</p>
     </div>
 
