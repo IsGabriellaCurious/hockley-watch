@@ -52,7 +52,8 @@
             <th><abbr title="Bedrooms">BD</abbr></th>
             <th><abbr title="Bathrooms">BA</abbr></th>
             <th><abbr title="Receptions">RE</abbr></th>
-            <th><abbr title="Pets">PT</abbr></th>
+            <th><abbr title="Garden?">GA</abbr></th>
+            <th><abbr title="Pets?">PT</abbr></th>
         </thead>
         <tbody>
             {#each prodList as p}
@@ -62,6 +63,6 @@
     </table>
 
     <div class="buttons is-right">
-        <button class="button is-success is-light">New Property</button>
+        <button class="button is-success is-light" on:click={() => { window.location.href = "/admin/property/new"; }}>New Property</button>
     </div>
 </container>

@@ -109,7 +109,7 @@
         </div>
     </div>
       
-      <div class="field">
+    <div class="field">
         <label class="label">Message</label>
         <div class="control">
             <textarea 

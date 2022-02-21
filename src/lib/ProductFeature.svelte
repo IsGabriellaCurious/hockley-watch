@@ -21,7 +21,7 @@
 <div class="column is-one-third product hwe-layout" on:click={() => redirectProduct(product.id)}>
     <article class="tile is-child box">
         <figure class="image">
-            {#if product.new}
+            {#if product.newlyBuilt}
                 <span title="Badge top right" class="badge">NEWLY BUILT</span>
             {/if}
             <img src={product.coverimage} alt={propertyName} />

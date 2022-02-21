@@ -323,7 +323,7 @@
                         </select>
                     </div>
                 </div>
-              </div>
+            </div>
 
             <div class="field">
                 <label class="label">First name</label>

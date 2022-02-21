@@ -101,7 +101,7 @@ export async function getAll(type: number, priceFilter: string): Promise<Array<P
         typeQuery = "&& type = " + type + " ";
     }
 
-    let priceQuery = "listed";
+    let priceQuery = "listed DESC";
     if (priceFilter) {
         if (priceFilter == "high") priceQuery = "price DESC";
         else if (priceFilter == "low") priceQuery = "price";
@@ -126,6 +126,42 @@ export async function getAll(type: number, priceFilter: string): Promise<Array<P
     }
 
     return list;
+}
+
+export async function updateProductData(p: Product): Promise<boolean> {
+    let conn = await createDB();
+
+    try {
+        await conn.query(
+            `UPDATE Products SET type = ?, rent = ?, newlyBuilt = ?, address = ?, description = ?, price = ?, bedrooms = ?, bathrooms = ?, receptions = ?, garden = ?, pets = ?, pets_info = ?, sold = ? WHERE id = ?`, 
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold, p.id]
+        );
+
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    } finally {
+        conn.end();
+    }
+}
+
+export async function createProductData(p: Product): Promise<boolean> {
+    let conn = await createDB();
+
+    try {
+        await conn.query(
+            `INSERT INTO Products (type, rent, newlyBuilt, address, description, coverimage, _images, price, bedrooms, bathrooms, receptions, garden, pets, pets_info, sold) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, "", "", p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold]
+        );
+
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    } finally {
+        conn.end();
+    }
 }
 
 export async function checkToken(token: string): Promise<AuthResult> {

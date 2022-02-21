@@ -1,6 +1,7 @@
 import * as cookie from "cookie"
 import { checkToken, getUserInfo, userUpdateSaved } from "$lib/global";
 import type { EndpointOutput } from "@sveltejs/kit";
+import type { AuthResult } from "$lib/types";
 
 export async function post({ request }): Promise<EndpointOutput> {
     let body = await request.json();
@@ -13,17 +14,15 @@ export async function post({ request }): Promise<EndpointOutput> {
 
     const cookies = cookie.parse(request.headers.get("cookie") || '');
     
-    let authResult = await checkToken(cookies.auth);
+    let authResult = await checkToken(cookies.auth) as AuthResult;
 
-    if (authResult == "notoken" || authResult == "invalid") {
+    if (authResult.result == "notoken" || authResult.result == "invalid") {
         return {
             status: 401
         }
     }
 
-    let id = parseInt(authResult);
-
-    let userinfo = await getUserInfo(id);
+    let userinfo = await getUserInfo(authResult.id);
 
     if (userinfo.saved == null)
         userinfo.saved = JSON.parse("[]");

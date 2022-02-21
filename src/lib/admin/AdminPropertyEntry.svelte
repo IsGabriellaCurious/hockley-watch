@@ -5,7 +5,7 @@
     export let product: Product;
 
     function yesno(b: boolean): string {
-        return b ? "Y" : "N";
+        return b ? "✔" : "✖"; // https://www.i2symbol.com/symbols/check
     }
 </script>
 
@@ -17,10 +17,11 @@
     <td>£{product.price} {product.rent ? "/month" : ""}</td>
     <td>{product.listed}</td>
     <td>{yesno(product.sold)}</td>
-    <td>{yesno(product.new)}</td>
+    <td>{yesno(product.newlyBuilt)}</td>
     <td>{product.bedrooms}</td>
     <td>{product.bathrooms}</td>
     <td>{product.receptions}</td>
+    <td>{yesno(product.garden)}</td>
     <td>{yesno(product.pets)}</td>
     <td><button class="button is-warning is-light" on:click={() => { window.location.href = "/admin/property/" + product.id}}>Edit</button></td>
 </tr>

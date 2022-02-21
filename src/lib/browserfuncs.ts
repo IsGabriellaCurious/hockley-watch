@@ -15,5 +15,5 @@ export function getPropertyType(type: number): string {
 
 export function generatePropertyName(product: Product, showNew: boolean = true) {
     let propertyType = getPropertyType(product.type);
-    return (product.new && showNew ? "NEW " : "") + product.bedrooms + " bedroom " + propertyType + " for " + (product.rent ? "rent" : "sale");
+    return (product.newlyBuilt && showNew ? "NEW " : "") + product.bedrooms + " bedroom " + propertyType + " for " + (product.rent ? "rent" : "sale");
 }
