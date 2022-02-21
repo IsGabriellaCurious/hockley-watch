@@ -1,24 +1,29 @@
-import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
+import * as cookie from "cookie";
 import type { Handle } from '@sveltejs/kit';
+import type { AuthResult, UserInfo } from '$lib/types';
+import { checkToken } from "$lib/global";
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
-	event.locals.userid = cookies.userid || uuid();
+	try {
+		if (event.url.pathname.startsWith("/admin/")) {
+			const cookies = cookie.parse(event.request.headers.get('cookie') || '');
+    
+			let authResult = await checkToken(cookies.auth) as AuthResult;
+		
+			if (authResult.result == "notoken" || authResult.result == "invalid") {
+				return new Response(authResult.result);
+			}
+
+			if (!authResult.admin) {
+				return new Response("403");
+			}
+		}
+	} catch (e) {
+		console.log(e);
+		return new Response("500 " + e);
+	}
 
 	const response = await resolve(event);
-
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers.set(
-			'set-cookie',
-			cookie.serialize('userid', event.locals.userid, {
-				path: '/',
-				httpOnly: true
-			})
-		);
-	}
 
 	return response;
 };

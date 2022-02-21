@@ -1,32 +1,24 @@
-<script context="module" lang="ts">
-    import type { UserInfo } from "$lib/types";
+<script lang="ts">
 
-    export const load = async ({ fetch }) => {
-        const res = await fetch("/backend/account/me");
-        let myInfo: UserInfo;
+    function sendToPage(loc: string) {
+        window.location.href = loc;
+    }
 
-        if (res.status == 200) {
-
-            myInfo = await res.json();
-
-            if (!myInfo.admin) {
-                return {
-                    status: 302,
-                    redirect: '/'
-                }
-            }
-
-        } else {
-            return {
-                status: 302,
-                redirect: '/'
-            };
-        }
-
-        return {
-            props: {
-                myInfo
-            }
-        }
-    };
 </script>
+
+<svelte:head>
+	<title>Home | Surya Administration</title>
+</svelte:head>
+
+<container class="container box hwe-layout">
+    <section class="content has-text-centered">
+        <h1>Surya Administration.</h1>
+        <p>Welcome to the administration pannel. Please pick an option below.</p>
+    </section>
+
+    <div class="buttons is-centered">
+        <button class="button is-danger" on:click={() => { sendToPage("/admin/property/manager") }}>Property Management</button>
+        <button class="button is-danger">User Management</button>
+        <button class="button is-black" on:click={() => { sendToPage("/") }}>Leave</button>
+    </div>
+</container>

@@ -5,6 +5,7 @@
 	import "@creativebulma/bulma-divider/dist/bulma-divider.min.css";
 	import "@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css";
 	import "@creativebulma/bulma-badge/dist/bulma-badge.min.css";
+	import "bulma-list/css/bulma-list.css";
 	import 'animate.css/animate.min.css';
 	import '../app.css';
 	import { onDestroy, onMount } from 'svelte';

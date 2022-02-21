@@ -16,6 +16,7 @@ export interface Product extends BasicProduct {
 	name: string,
 	address: string,
 	description: string,
+	listed: Date,
 	coverimage: string,
 	_images: string,
 	images: string[],
@@ -40,8 +41,15 @@ export interface BasicResult {
 }
 
 export interface LoginResult {
-    id: number
+    id: number,
+	admin: boolean,
     password: string,
+}
+
+export interface AuthResult {
+	result: string,
+	id: number,
+	admin: boolean,
 }
 
 export interface UserInfo {

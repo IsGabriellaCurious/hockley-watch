@@ -218,7 +218,7 @@
         let type: bToast.ToastType = 'is-danger';
 
         if (req.status == 200) {
-            window.location.href = "/account/home";
+            window.location.href = "/";
             return;
         }
 

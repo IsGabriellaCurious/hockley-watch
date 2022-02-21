@@ -20,9 +20,9 @@ export async function post({ request }): Promise<EndpointOutput> {
         };
     }
 
-    let dbPwId = await getDbPasswordAndId(body.email);
+    let dbInfo = await getDbInfo(body.email);
 
-    if (dbPwId == null) {
+    if (dbInfo == null) {
         console.log("user doesnt exist")
         return {
             body: {
@@ -32,7 +32,7 @@ export async function post({ request }): Promise<EndpointOutput> {
         }
     }
 
-    const [dbSalt, dbKey] = dbPwId.password.split(':'); // Get the salt and hashed pw from the db
+    const [dbSalt, dbKey] = dbInfo.password.split(':'); // Get the salt and hashed pw from the db
     const hashedBuffer = scryptSync(body.password, dbSalt, 64); // Generate the expected hash from the input password + db hash
 
     // Setup the buffer and check the match
@@ -41,7 +41,7 @@ export async function post({ request }): Promise<EndpointOutput> {
 
     if (match) {
 
-        let token = await createToken(dbPwId.id);
+        let token = await createToken(dbInfo.id, dbInfo.admin);
 
         const headers = {
             'Set-Cookie': cookie.serialize("auth", token, {
@@ -70,11 +70,11 @@ export async function post({ request }): Promise<EndpointOutput> {
     }
 };
 
-async function getDbPasswordAndId(email: String): Promise<LoginResult> {
+async function getDbInfo(email: String): Promise<LoginResult> {
     let conn = await createDB();
 
     try {
-        let result = await conn.query(`SELECT id, password FROM Users WHERE email=?`, [email]);
+        let result = await conn.query(`SELECT id, admin, password FROM Users WHERE email=?`, [email]);
 
         let list: Array<any> = (result as RowDataPacket)[0]
 
@@ -84,6 +84,7 @@ async function getDbPasswordAndId(email: String): Promise<LoginResult> {
 
         return {
             id: list[0].id,
+            admin: list[0].admin,
             password: list[0].password
         };
     } catch (e) {
@@ -94,8 +95,8 @@ async function getDbPasswordAndId(email: String): Promise<LoginResult> {
     }
 }
 
-async function createToken(id: number) {
-    return jwt.sign({ id: id}, process.env.TOKEN_SECRET, {
+async function createToken(id: number, admin: boolean) {
+    return jwt.sign({ id: id, admin: admin }, process.env.TOKEN_SECRET, {
         expiresIn: maxTokenAge
     });
 }

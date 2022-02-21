@@ -15,7 +15,7 @@
 			userinfo = null;
 		}
 
-		//adminMode = window.location.href.includes("admin");
+		adminMode = window.location.href.includes("admin");
 	});
 </script>
 

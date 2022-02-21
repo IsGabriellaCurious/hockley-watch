@@ -1,7 +1,7 @@
 import mysql, { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
-import type { Product, UserInfo } from "./types";
+import type { AuthResult, Product, UserInfo } from "./types";
 dotenv.config();
 
 // Utils
@@ -92,7 +92,7 @@ export async function getNewIn(): Promise<Array<Product>> {
     return list;
 }
 
-export async function getAll(type: number, priceFilter: String): Promise<Array<Product>> {
+export async function getAll(type: number, priceFilter: string): Promise<Array<Product>> {
     let conn = await createDB();
     let list: Array<Product>;
 
@@ -103,8 +103,9 @@ export async function getAll(type: number, priceFilter: String): Promise<Array<P
 
     let priceQuery = "listed";
     if (priceFilter) {
-        if (priceFilter == "high") priceQuery =  "price DESC"
-        else if (priceFilter == "low") priceQuery = "price"
+        if (priceFilter == "high") priceQuery = "price DESC";
+        else if (priceFilter == "low") priceQuery = "price";
+        else if (priceFilter == "id") priceQuery = "id";
     }
 
     try {
@@ -127,24 +128,39 @@ export async function getAll(type: number, priceFilter: String): Promise<Array<P
     return list;
 }
 
-export async function checkToken(token: string): Promise<string> {
+export async function checkToken(token: string): Promise<AuthResult> {
     if (token == null) {
-        return "notoken"
+        return {
+            result: "notoken",
+            id: null,
+            admin: null
+        };
     }
 
     let id;
+    let admin;
     await jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
         if (err) {
             id = null;
+            admin = null;
         } else {
             id = decoded.id;
+            admin = decoded.admin;
         }    
     });
 
     if (id == null) {
-        return "invalid"
+        return {
+            result: "invalid",
+            id: null,
+            admin: null
+        };
     } else {
-        return "" + id;
+        return {
+            result: "ok",
+            id: id,
+            admin: admin
+        };
     }
 }
 
