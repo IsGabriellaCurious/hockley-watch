@@ -2,7 +2,7 @@
     import type { Product } from "$lib/types";
 
     export const load = async ({ params, fetch }) => {
-        const res = await fetch("/backend/shop/listings.json?priceFilter=id");
+        const res = await fetch("/backend/shop/listings.json?priceFilter=id&showSold=true");
         let prodList: Array<Product>;
         if (res.status == 200) {
 

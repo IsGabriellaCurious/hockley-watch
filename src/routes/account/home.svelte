@@ -1,13 +1,21 @@
 <script context="module" lang="ts">
-    import type { UserInfo } from "$lib/types";
+    import ProductFeature from "$lib/ProductFeature.svelte";
+    import type { Product, UserInfo } from "$lib/types";
 
     export const load = async ({ fetch }) => {
         const res = await fetch("/backend/account/me");
         let myInfo: UserInfo;
+        let savedProperties: Array<Product> = [];
 
         if (res.status == 200) {
 
             myInfo = await res.json();
+
+            myInfo.saved.forEach(async (n) => {
+                let r = await fetch("/backend/shop/" + n + ".json");
+                let p = await r.json();
+                savedProperties.push(p)
+            });
 
         } else if (res.status == 302) {
             return {
@@ -23,7 +31,8 @@
 
         return {
             props: {
-                myInfo
+                myInfo,
+                savedProperties,
             }
         }
     };
@@ -31,6 +40,7 @@
 
 <script lang="ts">
     export let myInfo: UserInfo;
+    export let savedProperties: Array<Product>;
 
     function logout() {
         window.location.href = "/backend/account/logout";
@@ -45,5 +55,15 @@
     <section class="content has-text-centered">
         <h1>Welcome back, {myInfo.firstname}.</h1>
     </section>
+
+    <div class="divider">Saved Properties</div>
+    <section class="section">
+        <div class="columns is-multiline">
+            {#each savedProperties as p}
+                <ProductFeature product={p} />
+            {/each}
+            </div>
+    </section>
+
     <button class="button is-warning" on:click={logout}>Logout</button>
 </container>

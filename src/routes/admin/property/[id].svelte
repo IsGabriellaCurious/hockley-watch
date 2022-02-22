@@ -25,7 +25,9 @@
         const res = await fetch("/backend/shop/" + params.id + ".json");
         if (res.status == 200) {
 
-            const product = await res.json();
+            const product = await res.json() as Product;
+
+            product.price = product.price * 100;
 
             return {
                 props: {
@@ -69,6 +71,8 @@
     let price_status = "";
 
     let listed_status = "";
+
+    let coverimage_status = "";
 
     let sold_status = "";
 
@@ -194,6 +198,7 @@
                 on:focus={() => { price_status = ""; }}
                 disabled={price_status == "disabled"}
               >
+              Please input the price in pennies (this is done by entering the price then adding the 2 penny digits on the end).
             </div>
         </div>
 
@@ -298,6 +303,20 @@
         <br>
         <div class="divider">Miscellaneous</div>
         <br>
+        <div class="field">
+            <label class="label">Link to cover image</label>
+            <div class="control">
+              <input 
+                class="input {coverimage_status}" 
+                type="text"
+                placeholder="..."
+                bind:value={product.coverimage}
+                on:focus={() => { coverimage_status = ""; }}
+                disabled={coverimage_status == "disabled"}
+              >
+            </div>
+        </div>
+
         <div class="field">
             <label class="label">Date Listed</label>
             <div class="control">

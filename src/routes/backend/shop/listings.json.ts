@@ -6,8 +6,9 @@ export async function get({ url }): Promise<EndpointOutput> {
 
     let type = url.searchParams.get('type');
     let priceFilter = url.searchParams.get('priceFilter');
+    let showSold = url.searchParams.get('showSold')
 
-    let list:Array<Product> = await getAll(type, priceFilter);
+    let list:Array<Product> = await getAll(type, priceFilter, showSold);
     
     return {
         body: JSON.stringify(list),

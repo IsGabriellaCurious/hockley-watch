@@ -92,13 +92,13 @@ export async function getNewIn(): Promise<Array<Product>> {
     return list;
 }
 
-export async function getAll(type: number, priceFilter: string): Promise<Array<Product>> {
+export async function getAll(type: number, priceFilter: string, showSold: boolean = false): Promise<Array<Product>> {
     let conn = await createDB();
     let list: Array<Product>;
 
     let typeQuery = "";
     if (type && !isNaN(type)) {
-        typeQuery = "&& type = " + type + " ";
+        typeQuery = (!showSold ? "&&" : "") + "type = " + type + " ";
     }
 
     let priceQuery = "listed DESC";
@@ -109,7 +109,7 @@ export async function getAll(type: number, priceFilter: string): Promise<Array<P
     }
 
     try {
-        const result = await conn.query(`SELECT * FROM Products WHERE !sold ` + typeQuery + `ORDER BY ` + priceQuery);
+        const result = await conn.query(`SELECT * FROM Products ` + (!showSold ? `WHERE !sold ` : ``) + typeQuery + `ORDER BY ` + priceQuery);
 
         list = (result as RowDataPacket)[0]
 
@@ -133,8 +133,8 @@ export async function updateProductData(p: Product): Promise<boolean> {
 
     try {
         await conn.query(
-            `UPDATE Products SET type = ?, rent = ?, newlyBuilt = ?, address = ?, description = ?, price = ?, bedrooms = ?, bathrooms = ?, receptions = ?, garden = ?, pets = ?, pets_info = ?, sold = ? WHERE id = ?`, 
-            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold, p.id]
+            `UPDATE Products SET type = ?, rent = ?, newlyBuilt = ?, address = ?, description = ?, coverimage = ?, price = ?, bedrooms = ?, bathrooms = ?, receptions = ?, garden = ?, pets = ?, pets_info = ?, sold = ? WHERE id = ?`, 
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold, p.id]
         );
 
         return true;
@@ -152,7 +152,7 @@ export async function createProductData(p: Product): Promise<boolean> {
     try {
         await conn.query(
             `INSERT INTO Products (type, rent, newlyBuilt, address, description, coverimage, _images, price, bedrooms, bathrooms, receptions, garden, pets, pets_info, sold) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
-            [p.type, p.rent, p.newlyBuilt, p.address, p.description, "", "", p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold]
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, "", p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold]
         );
 
         return true;

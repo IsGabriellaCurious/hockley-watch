@@ -5,7 +5,6 @@
     import type { Product } from "$lib/types";
 
     export let product: Product;
-    export let clickPrefix: string = "/"
 
     export let propertyName: string = "loading";
 
@@ -14,7 +13,7 @@
     });
 
     function redirectProduct(id: number) {
-        window.location.href = window.location.href + clickPrefix + id;
+        window.location.href = "/shop/" + id;
     }
 </script>
 

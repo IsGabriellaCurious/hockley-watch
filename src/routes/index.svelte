@@ -86,7 +86,7 @@ import { onMount } from "svelte";
         <br>
         <div class="columns">
             {#each newin as p}
-                <ProductFeature product={p} clickPrefix="shop/"/>
+                <ProductFeature product={p} />
             {/each}
         </div>
     </section>
@@ -106,7 +106,7 @@ import { onMount } from "svelte";
 		<br>
 		<div class="columns">
 			{#each popular as p}
-				<ProductFeature product={p} clickPrefix="shop/"/>
+				<ProductFeature product={p} />
 			{/each}
 		</div>
 	</section>
