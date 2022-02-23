@@ -1,13 +1,14 @@
 <script context="module" lang="ts">
     export const load = async ({ params, fetch }) => {
-
+        
         let newProd = params.id == "new";
-
+        
         if (params.id == "new") {
             let product = {
                 type: 99,
                 address: "",
                 rent: false,
+                images: [],
                 newlyBuilt: false,
                 garden: false,
                 pets: false,
@@ -21,14 +22,14 @@
                 }
             };
         }
-
+        
         const res = await fetch("/backend/shop/" + params.id + ".json");
         if (res.status == 200) {
-
+            
             const product = await res.json() as Product;
-
+            
             product.price = product.price * 100;
-
+            
             return {
                 props: {
                     product,
@@ -41,56 +42,56 @@
                 error: new Error('This product does not exist. Please check the URL and try again.')
             };
         }
-
+        
     };
 </script>
 
 <script lang="ts">
     import * as bToast from "bulma-toast";
-
+    
     import type { Product } from "$lib/types";
-
+    
     export let product: Product;
     export let newProd: boolean;
-
+    
     function back() {
         history.back();
     }
     
     // ruh roh here we go
-    let id_status = "";
-
     let address_status = "";
-
+    
     let type_status = "";
-
+    
     let rent_status = "";
-
+    
     let description_status = "";
-
+    
     let price_status = "";
-
+    
     let listed_status = "";
-
+    
     let coverimage_status = "";
-
+    
+    let tmp_imagetext = "";
+    
     let sold_status = "";
-
+    
     let nb_status = "";
-
+    
     let bd_status = "";
-
+    
     let ba_status = "";
-
+    
     let re_status = "";
-
+    
     let ga_status = "";
-
+    
     let pt_status = "";
     let pto_status = "";
-
+    
     let submitLoading = false;
-
+    
     async function setAllStatus(status: string) {
         address_status = status;
         type_status = status;
@@ -107,16 +108,16 @@
         sold_status = status;
         nb_status = status;
     }
-
+    
     async function submit() {
         submitLoading = true;
         let success;
         let message;
-
+        
         if (!product.address || !product.type || product.type == 99 || product.rent == null 
-            || !product.price || !product.bedrooms || !product.bathrooms || !product.receptions
-            || product.garden == null || product.pets == null || !product.description || !product.coverimage
-            || product.sold == null || product.newlyBuilt == null) 
+        || !product.price || !product.bedrooms || !product.bathrooms || !product.receptions
+        || product.garden == null || product.pets == null || !product.description || !product.coverimage
+        || product.sold == null || product.newlyBuilt == null) 
         {
             setAllStatus("");
             if (!product.address) address_status = "is-danger";
@@ -132,7 +133,7 @@
             if (!product.coverimage) coverimage_status = "is-danger";
             if (product.sold == null) sold_status = "is-danger";
             if (product.newlyBuilt == null) nb_status = "is-danger";
-
+            
             bToast.toast({
                 message: "You have not completed the form. Please fill in all the boxes.",
                 type: 'is-danger',
@@ -144,8 +145,8 @@
             submitLoading = false;
             return;
         }
-
-
+        
+        
         let req;
         if (newProd) {
             req = await fetch('/backend/shop/createlisting', {
@@ -158,12 +159,12 @@
                 body: JSON.stringify(product)
             });
         }
-
+        
         let json = await req.json();
-
+        
         success = req.status == 200;
         message = success ? "The property has been " + (newProd ? "published" : "updated") + " successfully." : "Error updating property. Try again later.";
-
+        
         bToast.toast({
             message: message,
             type: success ? "is-success" : "is-danger",
@@ -171,30 +172,69 @@
             animate: { in: 'fadeInDown', out: 'fadeOutRight' },
             duration: 5000
         });  
-
+        
         if (success)
-            window.location.href = "/admin/property/manage?message=" + message + "&highlight=" + json.id;
-
+        window.location.href = "/admin/property/manage?message=" + message + "&highlight=" + json.id;
+        
         submitLoading = false;
     }
+    
+    function addToImageList() {
+        if (tmp_imagetext == "") {
+            bToast.toast({
+                message: "Please enter a URL.",
+                type: "is-danger",
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+            return;
+        }
+        
+        product.images.push(tmp_imagetext);
+        product.images = product.images;
+        tmp_imagetext = "";
+        bToast.toast({
+            message: "Added image url to the list.",
+            type: "is-success",
+            dismissible: true,
+            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+            duration: 5000
+        });  
+    }
 
+    function removeImageFromList(img: string) {
+        product.images.forEach((element,index) => {
+            if (element == img) product.images.splice(index, 1);
+        });
+
+        product.images = product.images;
+        bToast.toast({
+            message: "Removed image url to the list.",
+            type: "is-success",
+            dismissible: true,
+            animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+            duration: 5000
+        });  
+    }
+    
 </script>
 
 <svelte:head>
-	<title>Property Edit | Surya Administration</title>
+<title>Property Edit | Surya Administration</title>
 </svelte:head>
 
 <container class="container box hwe-layout">
     <section class="content has-text-centered">
         {#if newProd}
-            <h1>Register a new property.</h1>
-            <p>Please fill out all the fields below. Once finished, check all inputs then click publish to make it live!</p>
+        <h1>Register a new property.</h1>
+        <p>Please fill out all the fields below. Once finished, check all inputs then click publish to make it live!</p>
         {:else}
-            <h1>Editing {product.address}.</h1>
-            <p>Remember to save your changes. All edits are pushed instantly to the live website.</p>
+        <h1>Editing {product.address}.</h1>
+        <p>Remember to save your changes. All edits are pushed instantly to the live website.</p>
         {/if}
     </section>
-
+    
     <section>
         <!-- Basic Info -->
         <div class="divider">Basic Details</div>
@@ -202,17 +242,17 @@
         <div class="field">
             <label class="label">Address</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {address_status}" 
                 type="text" 
                 placeholder="..."
                 bind:value={product.address}
                 on:focus={() => { address_status = ""; }}
                 disabled={address_status == "disabled"}
-              >
+                >
             </div>
         </div>
-
+        
         <div class="field">
             <label class="label">Type</label>
             <div class="control">
@@ -226,7 +266,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Pricing -->
         <br>
         <div class="divider">Pricing</div>
@@ -234,18 +274,18 @@
         <label class="label checkbox">
             Rented?<br>
             <input 
-                class="{rent_status}"
-                type="checkbox"
-                bind:checked={product.rent}
-                on:focus={() => { rent_status = "" }}
-                disabled={rent_status == "disabled"}
+            class="{rent_status}"
+            type="checkbox"
+            bind:checked={product.rent}
+            on:focus={() => { rent_status = "" }}
+            disabled={rent_status == "disabled"}
             >
         </label>
-
+        
         <div class="field">
             <label class="label">Price {product.rent ? "per month" : ""}</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {price_status}" 
                 type="number"
                 step=".01"
@@ -253,11 +293,11 @@
                 bind:value={product.price}
                 on:focus={() => { price_status = ""; }}
                 disabled={price_status == "disabled"}
-              >
-              Please input the price in pennies (this is done by entering the price then adding the 2 penny digits on the end).
+                >
+                Please input the price in pennies (this is done by entering the price then adding the 2 penny digits on the end).
             </div>
         </div>
-
+        
         <!-- Property Details -->
         <br>
         <div class="divider">Property Specifics</div>
@@ -265,96 +305,96 @@
         <div class="field">
             <label class="label"># of Bedrooms</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {bd_status}" 
                 type="number"
                 placeholder="..."
                 bind:value={product.bedrooms}
                 on:focus={() => { bd_status = ""; }}
                 disabled={bd_status == "disabled"}
-              >
+                >
             </div>
         </div>
-
+        
         <div class="field">
             <label class="label"># of Bathrooms</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {ba_status}" 
                 type="number"
                 placeholder="..."
                 bind:value={product.bathrooms}
                 on:focus={() => { ba_status = ""; }}
                 disabled={ba_status == "disabled"}
-              >
+                >
             </div>
         </div>
-
+        
         <div class="field">
             <label class="label"># of Receptions</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {re_status}" 
                 type="number"
                 placeholder="..."
                 bind:value={product.receptions}
                 on:focus={() => { re_status = ""; }}
                 disabled={re_status == "disabled"}
-              >
+                >
             </div>
         </div>
-
+        
         <label class="label checkbox">
             Is there garden?<br>
             <input 
-                class="{ga_status}"
-                type="checkbox"
-                bind:checked={product.garden}
-                on:focus={() => { ga_status = "" }}
-                disabled={ga_status == "disabled"}
+            class="{ga_status}"
+            type="checkbox"
+            bind:checked={product.garden}
+            on:focus={() => { ga_status = "" }}
+            disabled={ga_status == "disabled"}
             >
         </label>
-
+        
         <label class="label checkbox">
             Are pets allowed?<br>
             <input 
-                class="{pt_status}"
-                type="checkbox"
-                bind:checked={product.pets}
-                on:focus={() => { pt_status = "" }}
-                disabled={pt_status == "disabled"}
+            class="{pt_status}"
+            type="checkbox"
+            bind:checked={product.pets}
+            on:focus={() => { pt_status = "" }}
+            disabled={pt_status == "disabled"}
             >
         </label>
-
+        
         {#if product.pets}
-            <div class="field">
-                <label class="label">Are there any specific pet rules?</label>
-                <div class="control">
+        <div class="field">
+            <label class="label">Are there any specific pet rules?</label>
+            <div class="control">
                 <input 
-                    class="input {pto_status}" 
-                    type="text" 
-                    placeholder="..."
-                    bind:value={product.pets_info}
-                    on:focus={() => { pto_status = ""; }}
-                    disabled={pto_status == "disabled"}
+                class="input {pto_status}" 
+                type="text" 
+                placeholder="..."
+                bind:value={product.pets_info}
+                on:focus={() => { pto_status = ""; }}
+                disabled={pto_status == "disabled"}
                 >
-                </div>
             </div>
+        </div>
         {/if}
-
+        
         <div class="field">
             <label class="label">Description</label>
             <div class="control">
                 <textarea 
-                    class="textarea {description_status}" 
-                    placeholder="Lots of detail here!" 
-                    bind:value={product.description} 
-                    on:focus={() => { description_status = ""; }}
-                    disabled={description_status == "disabled"}
+                class="textarea {description_status}" 
+                placeholder="Lots of detail here!" 
+                bind:value={product.description} 
+                on:focus={() => { description_status = ""; }}
+                disabled={description_status == "disabled"}
                 />
             </div>
         </div>
-
+        
         <!-- Miscellaneous -->
         <br>
         <div class="divider">Miscellaneous</div>
@@ -362,60 +402,86 @@
         <div class="field">
             <label class="label">Link to cover image</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {coverimage_status}" 
                 type="text"
                 placeholder="..."
                 bind:value={product.coverimage}
                 on:focus={() => { coverimage_status = ""; }}
                 disabled={coverimage_status == "disabled"}
-              >
+                >
             </div>
         </div>
-
+        
+        <label class="label">Property images</label>
+        {#each product.images as img}
+            <div class="field has-addons">
+                <div class="control">
+                    <input class="input" value={img} disabled>
+                </div>
+                <div class="control">
+                    <button class="button is-danger is-light" on:click={() => { removeImageFromList(img); }}>Delete</button>
+                </div>
+            </div>
+        {/each}
+        
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input 
+                class="input" 
+                type="text"
+                placeholder="https://example.com/img/example.png"
+                bind:value={tmp_imagetext}
+                >
+            </div>
+            <div class="control">
+                <button class="button is-link is-light" on:click={addToImageList}>Add to list</button>
+            </div>
+        </div>
+        
         <div class="field">
             <label class="label">Date Listed</label>
             <div class="control">
-              <input 
+                <input 
                 class="input {listed_status}" 
                 type="text"
                 placeholder="This will be filled automatically."
                 bind:value={product.listed}
                 on:focus={() => { listed_status = ""; }}
                 disabled
-              >
+                >
             </div>
         </div>
-
+        
         <label class="label checkbox">
             Sold?<br>
             <input 
-                class="{sold_status}"
-                type="checkbox"
-                bind:checked={product.sold}
-                on:focus={() => { sold_status = "" }}
-                disabled={sold_status == "disabled"}
+            class="{sold_status}"
+            type="checkbox"
+            bind:checked={product.sold}
+            on:focus={() => { sold_status = "" }}
+            disabled={sold_status == "disabled"}
             >
         </label>
-
+        
         <label class="label checkbox">
             Newly Built?<br>
             <input 
-                class="{nb_status}"
-                type="checkbox"
-                bind:checked={product.newlyBuilt}
-                on:focus={() => { nb_status = "" }}
-                disabled={nb_status == "disabled"}
+            class="{nb_status}"
+            type="checkbox"
+            bind:checked={product.newlyBuilt}
+            on:focus={() => { nb_status = "" }}
+            disabled={nb_status == "disabled"}
             >
         </label>
-
+        
         <div class="field is-grouped">
             <p class="control">
-              <button class="button is-primary is-light {submitLoading ? "is-loading" : ""}" on:click={submit}>{newProd ? "Publish" : "Save"}</button>
+                <button class="button is-primary is-light {submitLoading ? "is-loading" : ""}" on:click={submit}>{newProd ? "Publish" : "Save"}</button>
             </p>
             <p class="control">
-              <button class="button is-light" on:click={() => { window.location.href = "/admin/property/manage"}}>Cancel</button>
+                <button class="button is-light" on:click={() => { window.location.href = "/admin/property/manage"}}>Cancel</button>
             </p>
-          </div>
+        </div>
     </section>
 </container>

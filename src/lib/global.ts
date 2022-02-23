@@ -133,8 +133,8 @@ export async function updateProductData(p: Product): Promise<boolean> {
 
     try {
         await conn.query(
-            `UPDATE Products SET type = ?, rent = ?, newlyBuilt = ?, address = ?, description = ?, coverimage = ?, price = ?, bedrooms = ?, bathrooms = ?, receptions = ?, garden = ?, pets = ?, pets_info = ?, sold = ? WHERE id = ?`, 
-            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold, p.id]
+            `UPDATE Products SET type = ?, rent = ?, newlyBuilt = ?, address = ?, description = ?, coverimage = ?, images = ?, price = ?, bedrooms = ?, bathrooms = ?, receptions = ?, garden = ?, pets = ?, pets_info = ?, sold = ? WHERE id = ?`, 
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, JSON.stringify(p.images), p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold, p.id]
         );
 
         return true;
@@ -151,8 +151,8 @@ export async function createProductData(p: Product): Promise<boolean> {
 
     try {
         await conn.query(
-            `INSERT INTO Products (type, rent, newlyBuilt, address, description, coverimage, _images, price, bedrooms, bathrooms, receptions, garden, pets, pets_info, sold) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
-            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, "", p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold]
+            `INSERT INTO Products (type, rent, newlyBuilt, address, description, coverimage, images, price, bedrooms, bathrooms, receptions, garden, pets, pets_info, sold) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
+            [p.type, p.rent, p.newlyBuilt, p.address, p.description, p.coverimage, JSON.stringify(p.images), p.price, p.bedrooms, p.bathrooms, p.receptions, p.garden, p.pets, p.pets_info, p.sold]
         );
 
         return true;

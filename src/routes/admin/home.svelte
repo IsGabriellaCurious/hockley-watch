@@ -18,7 +18,7 @@
 
     <div class="buttons is-centered">
         <button class="button is-danger" on:click={() => { sendToPage("/admin/property/manage") }}>Property Management</button>
-        <button class="button is-danger">User Management</button>
+        <button class="button is-danger" disabled>User Management</button>
         <button class="button is-black" on:click={() => { sendToPage("/") }}>Leave</button>
     </div>
 </container>
