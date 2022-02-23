@@ -8,8 +8,7 @@ export async function post({ request }): Promise<EndpointOutput> {
 
     return {
         body: {
-            "message": "Your contact request has been submitted successfully. Thanks for your feedback.",
-            "status": 200
+            "message": "Your contact request has been submitted successfully. Thanks for your feedback."
         },
         status: 200
     }

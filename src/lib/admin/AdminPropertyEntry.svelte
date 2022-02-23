@@ -3,13 +3,14 @@
     import type { Product } from "$lib/types";
 
     export let product: Product;
+    export let shouldHighlight: number;
 
     function yesno(b: boolean): string {
         return b ? "✔" : "✖"; // https://www.i2symbol.com/symbols/check
     }
 </script>
 
-<tr>
+<tr class="{shouldHighlight != null && shouldHighlight == product.id ? "is-selected is-light" : ""}">
     <th>{product.id}</th>
     <td>{product.address}</td>
     <td>{getPropertyType(product.type)}</td>

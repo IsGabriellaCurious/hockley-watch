@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
     export const load = async ({ url }) => {
         let paramSuccess = url.searchParams.get('success');
-        let paramMessage = url.searchParams.get('message')
+        let paramMessage = url.searchParams.get('message');
 
         return {
             props: {

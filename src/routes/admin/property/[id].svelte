@@ -5,7 +5,7 @@
 
         if (params.id == "new") {
             let product = {
-                type: 0,
+                type: 99,
                 address: "",
                 rent: false,
                 newlyBuilt: false,
@@ -56,7 +56,7 @@
     function back() {
         history.back();
     }
-
+    
     // ruh roh here we go
     let id_status = "";
 
@@ -91,31 +91,78 @@
 
     let submitLoading = false;
 
+    async function setAllStatus(status: string) {
+        address_status = status;
+        type_status = status;
+        rent_status = status;
+        price_status = status;
+        bd_status = status;
+        ba_status = status;
+        re_status = status;
+        ga_status = status;
+        pt_status = status;
+        pto_status = status;
+        description_status = status;
+        coverimage_status = status;
+        sold_status = status;
+        nb_status = status;
+    }
+
     async function submit() {
         submitLoading = true;
         let success;
         let message;
+
+        if (!product.address || !product.type || product.type == 99 || product.rent == null 
+            || !product.price || !product.bedrooms || !product.bathrooms || !product.receptions
+            || product.garden == null || product.pets == null || !product.description || !product.coverimage
+            || product.sold == null || product.newlyBuilt == null) 
+        {
+            setAllStatus("");
+            if (!product.address) address_status = "is-danger";
+            if (!product.type || product.type == 99 ) type_status = "is-danger";
+            if (product.rent == null) rent_status = "is-danger";
+            if (!product.price) price_status = "is-danger";
+            if (!product.bedrooms) bd_status = "is-danger";
+            if (!product.bathrooms) ba_status = "is-danger";
+            if (!product.receptions) re_status = "is-danger";
+            if (product.garden == null) ga_status = "is-danger";
+            if (product.pets == null) pt_status = "is-danger";
+            if (!product.description) description_status = "is-danger";
+            if (!product.coverimage) coverimage_status = "is-danger";
+            if (product.sold == null) sold_status = "is-danger";
+            if (product.newlyBuilt == null) nb_status = "is-danger";
+
+            bToast.toast({
+                message: "You have not completed the form. Please fill in all the boxes.",
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+            
+            submitLoading = false;
+            return;
+        }
+
+
+        let req;
         if (newProd) {
-            const req = await fetch('/backend/shop/createlisting', {
+            req = await fetch('/backend/shop/createlisting', {
                 method: 'POST',
                 body: JSON.stringify(product)
             });
-
-            success = req.status == 200;
         } else {
-            const req = await fetch('/backend/shop/updatelisting', {
+            req = await fetch('/backend/shop/updatelisting', {
                 method: 'POST',
                 body: JSON.stringify(product)
             });
-
-            success = req.status == 200;
         }
 
-        if (success) {
-            message = "Property updated successfully."
-        } else {
-            message = "Error updating property. Try again later."
-        }
+        let json = await req.json();
+
+        success = req.status == 200;
+        message = success ? "The property has been " + (newProd ? "published" : "updated") + " successfully." : "Error updating property. Try again later.";
 
         bToast.toast({
             message: message,
@@ -124,6 +171,9 @@
             animate: { in: 'fadeInDown', out: 'fadeOutRight' },
             duration: 5000
         });  
+
+        if (success)
+            window.location.href = "/admin/property/manage?message=" + message + "&highlight=" + json.id;
 
         submitLoading = false;
     }
@@ -168,6 +218,7 @@
             <div class="control">
                 <div class="select {type_status}">
                     <select bind:value={product.type} on:focus={() => { type_status = ""; }}>
+                        <option value=9 selected={product.type === 99} disabled>Please select</option>
                         <option value=0 selected={product.type === 0}>House</option>
                         <option value=1 selected={product.type === 1}>Flat</option>
                         <option value=2 selected={product.type === 2}>Bungalo</option>

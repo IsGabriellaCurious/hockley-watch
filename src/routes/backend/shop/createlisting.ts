@@ -26,6 +26,9 @@ export async function post({ request }): Promise<EndpointOutput> {
     let updated = await createProductData(prod);
 
     return {
-        status: updated ? 200 : 400
+        status: updated ? 200 : 400,
+        body: JSON.stringify({
+            id: 0
+        })
     };
 };

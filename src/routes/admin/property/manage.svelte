@@ -1,7 +1,10 @@
 <script context="module" lang="ts">
     import type { Product } from "$lib/types";
 
-    export const load = async ({ params, fetch }) => {
+    export const load = async ({ url, fetch }) => {
+        let paramMessage = url.searchParams.get('message');
+        let paramHighlight: number = url.searchParams.get('highlight');
+
         const res = await fetch("/backend/shop/listings.json?priceFilter=id&showSold=true");
         let prodList: Array<Product>;
         if (res.status == 200) {
@@ -17,16 +20,38 @@
 
         return {
             props: {
-                prodList
+                prodList,
+                paramMessage,
+                paramHighlight
             }
-        }
+        };
     };
 </script>
 
 <script lang="ts">
     import AdminPropertyEntry from "$lib/admin/AdminPropertyEntry.svelte";
+    import * as bToast from "bulma-toast";
+    import { onMount } from "svelte";
 
-    export let prodList;
+    export let prodList: Array<Product>;
+    export let paramMessage: string;
+    export let paramHighlight: number;
+
+    onMount(() => {
+        document.body.addEventListener('click', () => {
+            paramHighlight = 0;
+        }, true);
+
+        if (paramMessage != null) {
+            bToast.toast({
+                message: paramMessage,
+                type: "is-success",
+                dismissible: true,
+                animate: { in: 'fadeInDown', out: 'fadeOutRight' },
+                duration: 5000
+            });  
+        }
+    });
 </script>
 
 <svelte:head>
@@ -57,7 +82,7 @@
         </thead>
         <tbody>
             {#each prodList as p}
-                <AdminPropertyEntry product={p}/>
+                <AdminPropertyEntry product={p} shouldHighlight={paramHighlight}/>
             {/each}
         </tbody>
     </table>

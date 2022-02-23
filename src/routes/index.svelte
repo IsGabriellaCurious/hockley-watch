@@ -42,7 +42,7 @@
 
 <script lang="ts">
     import ProductFeature from "$lib/ProductFeature.svelte";
-import { onMount } from "svelte";
+    import { onMount } from "svelte";
 
     export let popular: Array<Product>;
     export let newin: Array<Product>;
