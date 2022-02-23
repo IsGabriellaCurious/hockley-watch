@@ -11,12 +11,12 @@
 
             myInfo = await res.json();
 
-            myInfo.saved.forEach(async (n) => {
+            for (let _n in myInfo.saved) {
+                let n = myInfo.saved[_n];
                 let r = await fetch("/backend/shop/" + n + ".json");
                 let p = await r.json();
-                savedProperties.push(p)
-            });
-
+                savedProperties.push(p);
+            }
         } else if (res.status == 302) {
             return {
                 status: 302,
@@ -59,9 +59,15 @@
     <div class="divider">Saved Properties</div>
     <section class="section">
         <div class="columns is-multiline">
-            {#each savedProperties as p}
-                <ProductFeature product={p} />
-            {/each}
+            {#if savedProperties.length != 0}
+                {#each savedProperties as p}
+                    <ProductFeature product={p} />
+                {/each}
+            {:else}
+                <section class="content has-text-centered">
+                    You have not saved any properties.
+                </section>
+            {/if}
             </div>
     </section>
 

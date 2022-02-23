@@ -29,7 +29,7 @@
         <p class="title">{propertyName}</p>
         <p class="subtitle">{product.address}</p>
         <div class="content">
-            <i class="fa-solid fa-tag"/> <strong>£{product.price}</strong> {product.rent ? "/month" : ""}
+            <i class="fa-solid fa-tag"/> {#if !product.sold} <strong>£{product.price}</strong> {product.rent ? "/month" : ""} {:else} <strong>SOLD</strong> {/if}
             <br><br>
 
             <span class="has-tooltip-arrow" data-tooltip="{product.bedrooms} bedrooms.">
