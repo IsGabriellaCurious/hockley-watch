@@ -7,7 +7,7 @@ export function getPropertyType(type: number): string {
         case 1:
             return "flat";
         case 2:
-            return "bungalo";
+            return "apartment";
         default:
             return "property";
     }

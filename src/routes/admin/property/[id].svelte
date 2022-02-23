@@ -261,7 +261,7 @@
                         <option value=9 selected={product.type === 99} disabled>Please select</option>
                         <option value=0 selected={product.type === 0}>House</option>
                         <option value=1 selected={product.type === 1}>Flat</option>
-                        <option value=2 selected={product.type === 2}>Bungalo</option>
+                        <option value=2 selected={product.type === 2}>Apartment</option>
                     </select>
                 </div>
             </div>

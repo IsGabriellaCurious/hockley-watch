@@ -131,14 +131,14 @@
         <i class="fas fa-bath"/> Bathrooms: {product.bathrooms}<br>
         <i class="fas fa-couch"/> Receptions: {product.receptions}<br>
         <i class="fab fa-pagelines"/> Garden: {product.garden ? "Yes" : "No"}
-        {#if product.rent}
+        {#if product.type != 0}
             <br><i class="fa-solid fa-cat"/> Pets: {product.pets ? "Yes" : "No"}
         {/if}
 
         <div class="divider">Description</div>
         <p>{product.description}</p>
         
-        {#if product.rent}
+        {#if product.type != 0}
             <br>
             <div class="divider">Pet Info</div>
             <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>

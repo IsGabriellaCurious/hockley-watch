@@ -45,7 +45,7 @@
                 <i class="fa-brands fa-pagelines"/> {product.garden ? "Yes" : "No"}
             </span>
 
-            {#if product.rent}
+            {#if product.type != 0}
                 <br><span class="has-tooltip-arrow" data-tooltip="{product.pets ? "This property allows pets: " + product.pets_info : "This property does not allow pets."}">
                     <i class="fa-solid fa-cat"/> {product.pets ? "Yes" : "No"}
                 </span>

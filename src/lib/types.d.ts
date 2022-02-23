@@ -10,7 +10,7 @@ export interface Locals {
 
 export interface Product extends BasicProduct {
 	id: number,
-	type: number, // 0 - house, 1 - flat, 2 - bungalo
+	type: number, // 0 - house, 1 - flat, 2 - apartment
 	rent: boolean,
 	newlyBuilt: boolean,
 	address: string,

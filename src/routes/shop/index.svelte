@@ -63,7 +63,7 @@
             <button class="button {type == null ? activeClass : ""}" on:click={() => typeUpdate(null)}>All</button>
             <button class="button {type == 0 ? activeClass : ""}" on:click={() => typeUpdate(0)}>House</button>
             <button class="button {type == 1 ? activeClass : ""}" on:click={() => typeUpdate(1)}>Flat</button>
-            <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>Bungalo</button>
+            <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>Apartment</button>
         </div>
         <div class="buttons has-addons is-right level-item">
             <button class="button {priceFilter == null ? activeClass : ""}" on:click={() => priceFilterUpdate(null)}>Newest</button>
