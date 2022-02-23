@@ -79,7 +79,7 @@
                     Just in
                 </p>
                 <p class="subtitle">
-                    See our newest listings, check them out before they go!
+                    Browse our newest listings, fresh on the market.
                 </p>
             </div>
         </section>
@@ -99,7 +99,7 @@
 					Most popular
 				</p>
 				<p class="subtitle">
-					Browse our trending properties.
+					View our trending properties. Check them out before it's too late!
 				</p>
 			</div>
 		</section>
