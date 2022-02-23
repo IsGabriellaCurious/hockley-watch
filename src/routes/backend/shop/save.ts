@@ -27,15 +27,24 @@ export async function post({ request }): Promise<EndpointOutput> {
     if (userinfo.saved == null)
         userinfo.saved = JSON.parse("[]");
     
-    if (userinfo.saved.includes(body.id)) {
-        console.log("nah");
+    let newSave = !userinfo.saved.includes(body.id);
+    if (!newSave) {
+        userinfo.saved.forEach((element,index) => {
+            if (element == body.id) userinfo.saved.splice(index, 1);
+        });
     } else {
         userinfo.saved.push(body.id);
     }
 
     let updated = await userUpdateSaved(userinfo);
 
+    userinfo = await getUserInfo(authResult.id);
+
     return {
-        status: updated ? 200 : 400
+        status: updated ? 200 : 400,
+        body: JSON.stringify({
+            saved: userinfo.saved,
+            message: newSave ? "This property has been added to your saved-for-later." : "This property has been removed from your saved-for-later."
+        })
     };
 };

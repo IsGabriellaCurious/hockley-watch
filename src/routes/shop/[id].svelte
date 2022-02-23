@@ -1,16 +1,33 @@
 <script context="module" lang="ts">
-    let loading = true;
-
     export const load = async ({ params, fetch }) => {
         const res = await fetch("/backend/shop/" + params.id + ".json");
         if (res.status == 200) {
 
             const product = await res.json();
+            let saveStatus = false;
+            
+            const meRes = await fetch ("/backend/account/me");
+            let me;
+            if (meRes.status == 200) {
+                me = await meRes.json();
+                if (me.saved == null) {
+                    me.saved = [];
+                    saveStatus = false;
+                } else {
+                    saveStatus = me.saved.includes(product.id);
+                }
+            } else {
+                me = {
+                    saved: []
+                };
+                saveStatus = false;
+            }    
 
             return {
                 props: {
                     product,
-                    loading
+                    saveStatus,
+                    me
                 }
             };
         } else {
@@ -26,13 +43,17 @@
 <script lang="ts">
     import { generatePropertyName } from "$lib/browserfuncs";
 
-    import type { BasicResult, Product } from "$lib/types";
+    import type { BasicResult, Product, UserInfo } from "$lib/types";
     import * as bToast from "bulma-toast";
     import { onMount } from "svelte";
 
     export let product: Product;
+    export let me: UserInfo;
 
     export let propertyName: string = "loaing";
+
+    let saveButtonLoading = false;
+    export let saveStatus: boolean;
 
     onMount(() => {
         propertyName = generatePropertyName(product);
@@ -43,10 +64,11 @@
     }
 
     function onBasketClick() {
-
+  
     }
 
     async function onSaveClick() {
+        saveButtonLoading = true;
         const req = await fetch('/backend/shop/save', {
             method: 'POST',
             body: JSON.stringify({
@@ -55,13 +77,18 @@
         });
 
         if (req.status == 200) {
+            let json = await req.json()
+
             bToast.toast({
-                message: `This property has been added to your saved-for-later.`,
+                message: json.message,
                 type: 'is-success',
                 dismissible: true,
                 animate: { in: 'fadeInDown', out: 'fadeOutRight' },
                 duration: 5000
             });
+
+            me.saved = json.saved;
+            saveStatus = me.saved.includes(product.id);
         } else if (req.status == 400) {
             bToast.toast({
                 message: `Save error: unknown, contact website administrator and try again later.`,
@@ -79,6 +106,8 @@
                 duration: 5000
             });
         }
+
+        saveButtonLoading = false;
     }
 </script>
 
@@ -119,7 +148,11 @@
     <section class="section">
         <div class="buttons is-centered">
             <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
-            <button class="button is-link" on:click={onSaveClick}>Save for later</button>
+            {#if saveStatus}
+                <button class="button is-danger {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}>Unsave</button>
+            {:else}    
+            <button class="button is-link {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}>Save for later</button>
+            {/if}
         </div>
     </section>
 </container>

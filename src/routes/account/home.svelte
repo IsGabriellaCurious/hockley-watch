@@ -53,7 +53,8 @@
 
 <container class="container box hwe-layout">
     <section class="content has-text-centered">
-        <h1>Welcome back, {myInfo.firstname}.</h1>
+        <h1>Welcome to mySurya, {myInfo.firstname}.</h1>
+        <p>Make Surya your own. Save and enquire on properties, enhance your search and find your perfect home.</p>
     </section>
 
     <div class="divider">Saved Properties</div>
@@ -68,7 +69,7 @@
                     You have not saved any properties.
                 </section>
             {/if}
-            </div>
+        </div>
     </section>
 
     <button class="button is-warning" on:click={logout}>Logout</button>

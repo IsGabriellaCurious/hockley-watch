@@ -89,7 +89,10 @@
     let pt_status = "";
     let pto_status = "";
 
+    let submitLoading = false;
+
     async function submit() {
+        submitLoading = true;
         let success;
         let message;
         if (newProd) {
@@ -121,6 +124,8 @@
             animate: { in: 'fadeInDown', out: 'fadeOutRight' },
             duration: 5000
         });  
+
+        submitLoading = false;
     }
 
 </script>
@@ -355,7 +360,7 @@
 
         <div class="field is-grouped">
             <p class="control">
-              <button class="button is-primary is-light" on:click={submit}>{newProd ? "Publish" : "Save"}</button>
+              <button class="button is-primary is-light {submitLoading ? "is-loading" : ""}" on:click={submit}>{newProd ? "Publish" : "Save"}</button>
             </p>
             <p class="control">
               <button class="button is-light" on:click={() => { window.location.href = "/admin/property/manage"}}>Cancel</button>
