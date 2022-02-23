@@ -1,8 +1,6 @@
 <script context="module" lang="ts">
     import type { Product } from "$lib/types";
 
-    let loading = true;
-
     export const load = async ({ params, fetch }) => {
         const res = await fetch("/backend/shop/listings.json");
         let prodList: Array<Product>;
@@ -19,8 +17,7 @@
 
         return {
             props: {
-                prodList,
-                loading
+                prodList
             }
         }
     };
