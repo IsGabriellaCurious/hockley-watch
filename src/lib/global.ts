@@ -35,7 +35,6 @@ export async function getProductData(id: number): Promise<Product> {
         }
 
         product.price = product.price / 100;
-        
     } catch (e) {
         console.log(e);
     } finally {

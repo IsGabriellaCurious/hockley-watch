@@ -3,7 +3,10 @@
         const res = await fetch("/backend/shop/" + params.id + ".json");
         if (res.status == 200) {
 
-            const product = await res.json();
+            const product: Product = await res.json();
+            product.images.unshift(product.coverimage);
+            product.description = product.description.replace(/\n/g,'<br>') // fix new lines
+
             let saveStatus = false;
             
             const meRes = await fetch ("/backend/account/me");
@@ -43,7 +46,7 @@
 <script lang="ts">
     import { generatePropertyName } from "$lib/browserfuncs";
 
-    import type { BasicResult, Product, UserInfo } from "$lib/types";
+    import type { Product, UserInfo } from "$lib/types";
     import * as bToast from "bulma-toast";
     import { onMount } from "svelte";
 
@@ -54,6 +57,9 @@
 
     let saveButtonLoading = false;
     export let saveStatus: boolean;
+
+    let showGallery: boolean = false;
+    let currentGalleryIndex: number = 0; 
 
     onMount(() => {
         propertyName = generatePropertyName(product);
@@ -115,9 +121,30 @@
 	<title>{propertyName} | Surya Real Estate</title>
 </svelte:head>
 
+<!-- Gallery -->
+<div class="modal {showGallery ? "is-active" : ""}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="level">
+            {#if currentGalleryIndex != 0}
+                <i class="fa-solid fa-chevron-left level-item" on:click={() => { currentGalleryIndex--; }}/>
+            {:else}
+                <i/>
+            {/if}    
+            <figure class="image level-item">
+                <img src={product.images[currentGalleryIndex]} alt={product.address}/>
+            </figure>
+            {#if currentGalleryIndex != product.images.length-1}
+                <i class="fa-solid fa-chevron-right level-item" on:click={() => { currentGalleryIndex++; }}/>
+            {/if}
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" on:click={() => { showGallery = false; }}/>
+  </div>
+
 <container class="container box hwe-layout">
     <section class="has-text-centered">
-        <figure class="image">
+        <figure class="image" on:click={() => { showGallery = true; }}>
             <img src={product.coverimage} alt={product.address}/>
         </figure>
         <br>
@@ -136,7 +163,8 @@
         {/if}
 
         <div class="divider">Description</div>
-        <p>{product.description}</p>
+        <!-- we love a bit of XSS -->
+        <p class="content">{@html product.description}</p>
         
         {#if product.type != 0}
             <br>
