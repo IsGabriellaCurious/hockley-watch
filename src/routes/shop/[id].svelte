@@ -126,22 +126,17 @@
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="level">
-            {#if currentGalleryIndex != 0}
-                <i class="fa-solid fa-chevron-left level-item" on:click={() => { currentGalleryIndex--; }}/>
-            {:else}
-                <i/>
-            {/if}    
+            <i class="fa-solid fa-chevron-left level-item" aria-disabled={currentGalleryIndex == 0} on:click={() => { currentGalleryIndex--; }}/>
             <figure class="image level-item">
                 <img src={product.images[currentGalleryIndex]} alt={product.address}/>
             </figure>
-            {#if currentGalleryIndex != product.images.length-1}
-                <i class="fa-solid fa-chevron-right level-item" on:click={() => { currentGalleryIndex++; }}/>
-            {/if}
+            <i class="fa-solid fa-chevron-right level-item" aria-disabled={currentGalleryIndex == product.images.length-1} on:click={() => { currentGalleryIndex++; }}/>
         </div>
     </div>
     <button class="modal-close is-large" aria-label="close" on:click={() => { showGallery = false; }}/>
   </div>
 
+<!-- Main Page -->
 <container class="container box hwe-layout">
     <section class="has-text-centered">
         <figure class="image" on:click={() => { showGallery = true; }}>
