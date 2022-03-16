@@ -1,9 +1,8 @@
 import * as cookie from "cookie"
 import { checkToken, updateProductData } from "$lib/global";
-import type { EndpointOutput } from "@sveltejs/kit";
 import type { AuthResult, Product } from "$lib/types";
 
-export async function post({ request }): Promise<EndpointOutput> {
+export async function post({ request }) {
     let prod = await request.json() as Product;
 
     if (!prod) {

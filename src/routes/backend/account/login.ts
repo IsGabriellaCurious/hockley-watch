@@ -1,14 +1,13 @@
 import { createDB } from "$lib/global";
 import { scryptSync, timingSafeEqual } from "crypto";
-import * as jwt from "jsonwebtoken";
+import jsonwebtoken  from 'jsonwebtoken';
 import * as cookie from "cookie";
 import * as dotenv from "dotenv";
 import type { LoginResult } from "$lib/types";
-import type { EndpointOutput } from "@sveltejs/kit";
 import type { RowDataPacket } from "mysql2";
 import { maxTokenAge } from "$lib/sharedfuncs";
 
-export async function post({ request }): Promise<EndpointOutput> {
+export async function post({ request }) {
     let body = await request.json();
 
     if (!body.email || !body.password) {
@@ -96,7 +95,7 @@ async function getDbInfo(email: String): Promise<LoginResult> {
 }
 
 async function createToken(id: number, admin: boolean) {
-    return jwt.sign({ id: id, admin: admin }, process.env.TOKEN_SECRET, {
+    return jsonwebtoken.sign({ id: id, admin: admin }, process.env.TOKEN_SECRET, {
         expiresIn: maxTokenAge
     });
 }

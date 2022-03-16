@@ -1,6 +1,6 @@
 import mysql, { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
-import * as jwt from "jsonwebtoken";
+import jsonwebtoken  from 'jsonwebtoken';
 import type { AuthResult, Product, UserInfo } from "./types";
 dotenv.config();
 
@@ -174,7 +174,7 @@ export async function checkToken(token: string): Promise<AuthResult> {
 
     let id;
     let admin;
-    await jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    await jsonwebtoken.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
         if (err) {
             id = null;
             admin = null;

@@ -1,7 +1,6 @@
 import * as cookie from "cookie"
-import type { EndpointOutput } from "@sveltejs/kit";
 
-export async function get({ request }): Promise<EndpointOutput> {
+export async function get({ request }) {
     const headers = {
         'Set-Cookie': cookie.serialize("auth", "expired", {
             httpOnly: true,

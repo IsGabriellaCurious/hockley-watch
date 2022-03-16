@@ -1,7 +1,6 @@
 import { getProductData } from "$lib/global";
-import type { EndpointOutput } from "@sveltejs/kit";
 
-export async function get({ params }): Promise<EndpointOutput> {
+export async function get({ params }) {
     let product = await getProductData(params.id);
     if (product == null) {
         return {

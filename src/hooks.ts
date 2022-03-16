@@ -7,6 +7,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	try {
 		if (event.url.pathname.startsWith("/admin/")) {
 			const cookies = cookie.parse(event.request.headers.get('cookie') || '');
+			console.log(event.request.headers);
+			console.log(cookies);
     
 			let authResult = await checkToken(cookies.auth) as AuthResult;
 		

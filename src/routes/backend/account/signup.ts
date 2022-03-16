@@ -1,11 +1,10 @@
 import { createDB } from "$lib/global";
 import type { BasicResult } from "$lib/types";
-import type { EndpointOutput } from "@sveltejs/kit";
 
 import { scryptSync, randomBytes } from 'crypto';
 import type { RowDataPacket } from "mysql2";
 
-export async function post({ request }): Promise<EndpointOutput> {
+export async function post({ request }) {
     let body = await request.json();
 
     if (!body.email || !body.title || !body.firstname || !body.lastname || !body.password) {

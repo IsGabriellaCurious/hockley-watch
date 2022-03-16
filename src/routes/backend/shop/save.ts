@@ -1,9 +1,8 @@
 import * as cookie from "cookie"
 import { checkToken, getUserInfo, userUpdateSaved } from "$lib/global";
-import type { EndpointOutput } from "@sveltejs/kit";
 import type { AuthResult } from "$lib/types";
 
-export async function post({ request }): Promise<EndpointOutput> {
+export async function post({ request }) {
     let body = await request.json();
 
     if (!body.id) {

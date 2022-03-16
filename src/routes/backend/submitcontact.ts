@@ -1,6 +1,4 @@
-import type { EndpointOutput } from "@sveltejs/kit";
-
-export async function post({ request }): Promise<EndpointOutput> {
+export async function post({ request }) {
     let body = await request.json();
 
     console.log(body.email);

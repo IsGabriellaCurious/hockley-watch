@@ -1,9 +1,8 @@
 import * as cookie from "cookie"
-import type { EndpointOutput } from "@sveltejs/kit";
 import { checkToken, getUserInfo } from "$lib/global";
 import type { AuthResult } from "$lib/types";
 
-export async function get({ request, url }): Promise<EndpointOutput> {
+export async function get({ request, url }) {
     let redirectOnFail: boolean = url.searchParams.get('redirectonfail');
     if (redirectOnFail == null)
         redirectOnFail = true;
