@@ -35,15 +35,15 @@
 		
 		<div class="navbar-menu {mobileMenuActive ? "is-active" : ""}">
 			<div class="navbar-end">
-				<a class="navbar-item" href="/">Home</a>
-				<a class="navbar-item" href="/shop">Properties</a>
-				<a class="navbar-item" href="/about">About Us</a>
-				<a class="navbar-item" href="/contact">Contact</a>
+				<a class="navbar-item" href="/" on:click={() => {mobileMenuActive = false;}}>Home</a>
+				<a class="navbar-item" href="/shop" on:click={() => {mobileMenuActive = false;}}>Properties</a>
+				<a class="navbar-item" href="/about" on:click={() => {mobileMenuActive = false;}}>About Us</a>
+				<a class="navbar-item" href="/contact" on:click={() => {mobileMenuActive = false;}}>Contact</a>
 				{#if userinfo != null && userinfo.admin}
-					<a class="navbar-item" href="/admin/home">Admin</a>
+					<a class="navbar-item" href="/admin/home" on:click={() => {mobileMenuActive = false;}}>Admin</a>
 				{/if}
 				<a class="navbar-item" href="/account/home">
-					<button class="button {adminMode ? "is-black" : "is-primary"}">
+					<button class="button {adminMode ? "is-black" : "is-primary"}" on:click={() => {mobileMenuActive = false;}}>
 						<i class="fa-solid fa-user-large" />&nbsp;{!userinfo ? "Sign In" : userinfo.firstname + "'s Account"}
 					</button>
 				</a>
