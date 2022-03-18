@@ -36,7 +36,7 @@
 				{/if}
 				<a class="navbar-item" href="/account/home">
 					<button class="button {adminMode ? "is-black" : "is-primary"}">
-						{!userinfo ? "Sign in" : userinfo.firstname + "'s Account"}
+						<i class="fa-solid fa-user-large" />&nbsp;{!userinfo ? "Sign In" : userinfo.firstname + "'s Account"}
 					</button>
 				</a>
 			</div>

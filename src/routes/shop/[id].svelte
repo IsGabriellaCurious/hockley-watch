@@ -138,43 +138,57 @@
 
 <!-- Main Page -->
 <container class="container box hwe-layout">
-    <section class="has-text-centered">
-        <figure class="image" on:click={() => { showGallery = true; }}>
-            <img src={product.coverimage} alt={product.address}/>
-        </figure>
-        <br>
-        <h1><strong>{propertyName}</strong></h1>
-        {product.address}<br><br>
+    <section class="column has-text-centered">
+            <figure class="image" on:click={() => { showGallery = true; }}>
+                <img src={product.coverimage} alt={product.address}/>
+            </figure>
 
-        <i class="fas fa-tag"/> £{product.price.toLocaleString('en-GB')} {product.rent ? "/month" : ""}
-
-        <div class="divider">At a Glance</div>
-        <i class="fas fa-bed"/> Bedrooms: {product.bedrooms}<br>
-        <i class="fas fa-bath"/> Bathrooms: {product.bathrooms}<br>
-        <i class="fas fa-couch"/> Receptions: {product.receptions}<br>
-        <i class="fab fa-pagelines"/> Garden: {product.garden ? "Yes" : "No"}
-        {#if product.type != 0}
-            <br><i class="fa-solid fa-cat"/> Pets: {product.pets ? "Yes" : "No"}
-        {/if}
-
-        <div class="divider">Description</div>
-        <!-- we love a bit of XSS -->
-        <p class="content">{@html product.description}</p>
-        
-        {#if product.type != 0}
             <br>
-            <div class="divider">Pet Info</div>
-            <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
-        {/if}
+
+            <h1 class="title"><strong>{propertyName}</strong></h1>
+            <h2 class="subtitle">{product.address}</h2>
+
+            <h2 class="subtitle"><i class="fas fa-tag"/> £{product.price.toLocaleString('en-GB')} {product.rent ? "/month" : ""}</h2>
     </section>
+    
+    <section class="section" style="padding-top: 0;">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                <div class="divider">At a Glance</div>
+                <div style="padding: 1em;">
+                    <i class="fas fa-bed fa-fw"/> Bedrooms: {product.bedrooms}<br>
+                    <i class="fas fa-bath fa-fw"/> Bathrooms: {product.bathrooms}<br>
+                    <i class="fas fa-couch fa-fw"/> Receptions: {product.receptions}<br>
+                    <i class="fab fa-pagelines fa-fw"/> Garden: {product.garden ? "Yes" : "No"}
+                    {#if product.type != 0}
+                        <br><i class="fa-solid fa-cat fa-fw"/> Pets: {product.pets ? "Yes" : "No"}
+                    {/if}
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="divider">Description</div>
+                <!-- we love a bit of XSS -->
+                <p class="content">{@html product.description}</p>
+            </div>
+        </div>
+    </section>
+        
+
+        {#if product.type != 0}
+            <section class="section has-text-centered" style="padding-top: 0;">
+                <div class="divider">Pet Info</div>
+                <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
+            </section>
+        {/if}
 
     <section class="section">
         <div class="buttons is-centered">
-            <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}>Enquire</button>
+            <button class="button is-primary" on:click={onBasketClick} disabled={product.sold}><i class="fa-solid fa-message"></i>&nbsp;Enquire</button>
             {#if saveStatus}
-                <button class="button is-danger {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}>Unsave</button>
+                <button class="button is-danger {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}><i class="fa-solid fa-star fa-fw" />&nbsp;Unsave</button>
             {:else}    
-            <button class="button is-link {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}>Save for later</button>
+            <button class="button is-link {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}><i class="fa-regular fa-star fa-fw" />&nbsp;Save</button>
             {/if}
         </div>
     </section>
