@@ -6,6 +6,8 @@
 
 	export let adminMode = false;
 
+	let mobileMenuActive = false;
+
 	onMount(async () => {
 		const req = await fetch('/backend/account/me?redirectonfail=false');
 
@@ -23,9 +25,15 @@
 	<nav class="navbar {adminMode ? "is-danger" : "is-link"}">
 		<div class="navbar-brand">
 			<a class="navbar-item" href="{adminMode ? "/admin/home" : "/"}">{adminMode ? "Surya Administration" : "Surya Real Estate"}</a>
+		
+			<a role="button" class="navbar-burger {mobileMenuActive ? "is-active" : ""}" aria-label="menu" aria-expanded="false" on:click={() => {mobileMenuActive = !mobileMenuActive;}}>
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+			</a>
 		</div>
-
-		<div class="navbar-menu">
+		
+		<div class="navbar-menu {mobileMenuActive ? "is-active" : ""}">
 			<div class="navbar-end">
 				<a class="navbar-item" href="/">Home</a>
 				<a class="navbar-item" href="/shop">Properties</a>
