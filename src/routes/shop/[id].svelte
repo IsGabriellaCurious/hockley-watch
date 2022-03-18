@@ -160,7 +160,7 @@
                     <i class="fas fa-bath fa-fw"/> Bathrooms: {product.bathrooms}<br>
                     <i class="fas fa-couch fa-fw"/> Receptions: {product.receptions}<br>
                     <i class="fab fa-pagelines fa-fw"/> Garden: {product.garden ? "Yes" : "No"}
-                    {#if product.type != 0}
+                    {#if product.rent}
                         <br><i class="fa-solid fa-cat fa-fw"/> Pets: {product.pets ? "Yes" : "No"}
                     {/if}
                 </div>
@@ -175,7 +175,7 @@
     </section>
         
 
-        {#if product.type != 0}
+        {#if product.rent}
             <section class="section has-text-centered" style="padding-top: 0;">
                 <div class="divider">Pet Info</div>
                 <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
