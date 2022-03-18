@@ -61,17 +61,52 @@
     <nav class="columns">
         <div class="column">
             <div class="buttons has-addons is-pulled-left">
-                <button class="button {type == null ? activeClass : ""}" on:click={() => typeUpdate(null)}>All</button>
-                <button class="button {type == 0 ? activeClass : ""}" on:click={() => typeUpdate(0)}>House</button>
-                <button class="button {type == 1 ? activeClass : ""}" on:click={() => typeUpdate(1)}>Flat</button>
-                <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>Apartment</button>
+                <button class="button {type == null ? activeClass : ""}" on:click={() => typeUpdate(null)}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-list" />
+                    </span>
+                    <span>All</span>
+                </button>
+                <button class="button {type == 0 ? activeClass : ""}" on:click={() => typeUpdate(0)}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-house-chimney" />
+                    </span>
+                    <span>House</span>
+                </button>
+                <button class="button {type == 1 ? activeClass : ""}" on:click={() => typeUpdate(1)}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-building" />
+                    </span>
+                    <span>Flat</span>
+                </button>
+                <button class="button {type == 2 ? activeClass : ""}" on:click={() => typeUpdate(2)}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-hotel" />
+                    </span>
+                    <span>Appartment</span>
+                </button>
             </div>
         </div>
         <div class="column">
             <div class="buttons has-addons is-pulled-right">
-                <button class="button {priceFilter == null ? activeClass : ""}" on:click={() => priceFilterUpdate(null)}>Newest</button>
-                <button class="button {priceFilter == "high" ? activeClass : ""}" on:click={() => priceFilterUpdate("high")}>High-to-low</button>
-                <button class="button {priceFilter == "low" ? activeClass : ""}" on:click={() => priceFilterUpdate("low")}>Low-to-high</button>
+                <button class="button {priceFilter == null ? activeClass : ""}" on:click={() => priceFilterUpdate(null)}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-sort" />
+                    </span>
+                    <span>Newest</span>
+                </button>
+                <button class="button {priceFilter == "high" ? activeClass : ""}" on:click={() => priceFilterUpdate("high")}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-arrow-up-wide-short" />
+                    </span>
+                    <span>High-to-low</span>
+                </button>
+                <button class="button {priceFilter == "low" ? activeClass : ""}" on:click={() => priceFilterUpdate("low")}>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-arrow-down-short-wide" />
+                    </span>
+                    <span>Low-to-high</span>
+                </button>
             </div>
         </div>
     </nav>

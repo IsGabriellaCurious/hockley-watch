@@ -146,7 +146,7 @@
         <h1><strong>{propertyName}</strong></h1>
         {product.address}<br><br>
 
-        <i class="fas fa-tag"/> £{product.price} {product.rent ? "/month" : ""}
+        <i class="fas fa-tag"/> £{product.price.toLocaleString('en-GB')} {product.rent ? "/month" : ""}
 
         <div class="divider">At a Glance</div>
         <i class="fas fa-bed"/> Bedrooms: {product.bedrooms}<br>

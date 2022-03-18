@@ -15,7 +15,7 @@
     <td>{product.address}</td>
     <td>{getPropertyType(product.type)}</td>
     <td>{yesno(product.rent)}</td>
-    <td>£{product.price} {product.rent ? "/month" : ""}</td>
+    <td>£{product.price.toLocaleString('en-GB')} {product.rent ? "/month" : ""}</td>
     <td>{product.listed}</td>
     <td>{yesno(product.sold)}</td>
     <td>{yesno(product.newlyBuilt)}</td>

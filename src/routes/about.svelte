@@ -6,7 +6,7 @@
 	<h1>About us.</h1>
 
 	<p>
-		We hate watches.
+		TODO.
 	</p>
 </div>
 
