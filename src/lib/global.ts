@@ -1,4 +1,5 @@
-import mysql, { RowDataPacket } from "mysql2/promise";
+import mysql from "mysql2/promise";
+import type { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
 import jsonwebtoken  from 'jsonwebtoken';
 import type { AuthResult, Product, UserInfo } from "./types";
