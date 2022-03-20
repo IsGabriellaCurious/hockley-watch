@@ -126,11 +126,11 @@
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="level">
-            <i class="fa-solid fa-chevron-left level-item" aria-disabled={currentGalleryIndex == 0} on:click={() => { currentGalleryIndex--; }}/>
+            <i class="fa-solid fa-chevron-left fa-fw level-item plshover" style="color:white;" aria-disabled={currentGalleryIndex == 0} on:click={() => { currentGalleryIndex--; }}/>
             <figure class="image level-item">
                 <img src={product.images[currentGalleryIndex]} alt={product.address}/>
             </figure>
-            <i class="fa-solid fa-chevron-right level-item" aria-disabled={currentGalleryIndex == product.images.length-1} on:click={() => { currentGalleryIndex++; }}/>
+            <i class="fa-solid fa-chevron-right fa-fw level-item plshover" style="color:white;" aria-disabled={currentGalleryIndex == product.images.length-1} on:click={() => { currentGalleryIndex++; }}/>
         </div>
     </div>
     <button class="modal-close is-large" aria-label="close" on:click={() => { showGallery = false; }}/>
@@ -140,10 +140,9 @@
 <container class="container box hwe-layout">
     <section class="column has-text-centered">
             <figure class="image" on:click={() => { showGallery = true; }}>
-                <img src={product.coverimage} alt={product.address}/>
+                <img class="plshover" src={product.coverimage} alt={product.address}/>
             </figure>
-
-            <br>
+            <p style="font-style: italic; font-size: 13px;">Click the above to launch the gallery!</p>
 
             <h1 class="title"><strong>{propertyName}</strong></h1>
             <h2 class="subtitle">{product.address}</h2>
@@ -191,6 +190,7 @@
             <button class="button is-link {saveButtonLoading ? "is-loading" : ""}" on:click={onSaveClick}><i class="fa-regular fa-star fa-fw" />&nbsp;Save</button>
             {/if}
         </div>
+        <p class="has-text-centered">Have a question? Contact our team <a style="font-style:italic;" href="/contact?subj=Question regarding {product.address} ({product.id}):">here</a>.</p>
     </section>
 </container>
 
@@ -204,5 +204,9 @@
         max-height: inherit;
         width: auto;
         margin: 0 auto;
+    }
+
+    .plshover:hover {
+        cursor: pointer;
     }
 </style>

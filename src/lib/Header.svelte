@@ -5,6 +5,7 @@
 	let userinfo: UserInfo;
 
 	export let adminMode = false;
+	export let devEnv = false;
 
 	let mobileMenuActive = false;
 
@@ -18,10 +19,16 @@
 		}
 
 		adminMode = window.location.href.includes("admin");
+		devEnv = window.location.hostname == "localhost";
 	});
 </script>
 
 <header>
+	{#if devEnv}
+		<div class="notification is-danger is-light has-text-centered" style="border-radius: 0; margin: 0;">
+			<i class="fa-solid fa-triangle-exclamation fa-fw" />&nbsp;You are viewing a development build. All content is subject to change. 
+		</div>
+	{/if}
 	<nav class="navbar {adminMode ? "is-danger" : "is-link"}">
 		<div class="navbar-brand">
 			<a class="navbar-item" href="{adminMode ? "/admin/home" : "/"}">{adminMode ? "Surya Administration" : "Surya Real Estate"}</a>

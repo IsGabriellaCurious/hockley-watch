@@ -1,6 +1,26 @@
+<script context="module" lang="ts">
+    export const load = async ({ url }) => {
+        let paramSubj = url.searchParams.get('subj');
+
+        return {
+            props: {
+                paramSubj
+            }
+        }
+    };
+</script>
+
 <script lang="ts">
     import { isEmail } from "$lib/sharedfuncs";
     import * as bToast from "bulma-toast";
+    import { onMount } from "svelte";
+
+    export let paramSubj;
+
+    onMount(() => {
+        if (paramSubj)
+            message = paramSubj + "\n\n";
+    });
 
     let email = "";
     let message = "";
