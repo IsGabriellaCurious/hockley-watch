@@ -174,12 +174,12 @@
     </section>
         
 
-        {#if product.rent}
-            <section class="section has-text-centered" style="padding-top: 0;">
-                <div class="divider">Pet Info</div>
-                <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
-            </section>
-        {/if}
+    {#if product.rent}
+        <section class="section has-text-centered" style="padding-top: 0;">
+            <div class="divider">Pet Info</div>
+            <p>{product.pets ? product.pets_info : "Pets are not allowed at this property."}</p>
+        </section>
+    {/if}
 
     <section class="section">
         <div class="buttons is-centered">
