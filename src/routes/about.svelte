@@ -15,5 +15,9 @@
 	<p>
 		As we are a Solihull based company, you can rest assured that we have outstanding knowledge of the area so we can help guide you on anything from local schools to your nearest shopping centres. With our extensive team of customer service agents, we are always available to answer your queries: Monday to Sunday. 34 High Street, Solihull, B91 4EX.
 	</p>
+	<br>
+	<p>
+		For more information about the Solihull area, please visit the <a href="https://www.solihull.gov.uk/">Solihull Council website</a>.
+	</p>
 </div>
 
