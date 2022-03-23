@@ -2,7 +2,7 @@ import mysql from "mysql2/promise";
 import type { RowDataPacket } from "mysql2/promise";
 import * as dotenv from "dotenv";
 import jsonwebtoken  from 'jsonwebtoken';
-import type { AuthResult, Product, UserInfo } from "./types";
+import type { AuthResult, Product, SiteMessage, UserInfo } from "./types";
 dotenv.config();
 
 // Utils
@@ -233,4 +233,24 @@ export async function userUpdateSaved(info: UserInfo): Promise<boolean> {
     } finally {
         conn.end();
     }
+}
+
+export async function getSiteMessage(): Promise<SiteMessage> {
+    let conn = await createDB();
+    let msg: SiteMessage;
+    
+    try {
+        const result = await conn.query(`SELECT sitemessage_text, sitemessage_type FROM Admin WHERE id=1`);
+        
+        msg = (result as RowDataPacket)[0][0] as SiteMessage;
+        
+        if (!msg) {
+            return null;
+        }
+    } catch (e) {
+        console.log(e);
+    } finally {
+        conn.end();
+    }
+    return msg;
 }

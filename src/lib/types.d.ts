@@ -59,3 +59,8 @@ export interface UserInfo {
 	lastname: string,
 	saved: Array<number>
 }
+
+export interface SiteMessage {
+	sitemessage_text: string,
+	sitemessage_type: number
+}

@@ -51,6 +51,11 @@
             {#each prodList as p}
                 <AdminAssetEntry product={p} />
             {/each}
+            <tr>
+                <th>About Us</th>
+                <td><img src="https://www.investinukcentral.com/wp-content/uploads/2019/11/solihull-town-centre-1-aspect-ratio-8x3.jpg" alt="Touchwood Shopping Centre." /></td>
+                <td>https://www.investinukcentral.com/wp-content/uploads/2019/11/solihull-town-centre-1-aspect-ratio-8x3.jpg</td>
+            </tr>
         </tbody>
     </table>
 </container>

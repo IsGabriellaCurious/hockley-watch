@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { afterUpdate, beforeUpdate, onMount, tick } from "svelte";
-	import type { UserInfo } from "./types";
+	import { onMount } from "svelte";
+	import type { SiteMessage, UserInfo } from "./types";
 
 	let userinfo: UserInfo;
 
 	export let adminMode = false;
 	export let devEnv = false;
+
+	export let showMsg: boolean = false;
+	export let msg_text: string = "";
+	export let msg_type: string = "";
+	export let msg_prefix: string = "";
 
 	let mobileMenuActive = false;
 
@@ -20,13 +25,51 @@
 
 		adminMode = window.location.href.includes("admin");
 		devEnv = window.location.hostname == "localhost";
+
+		const res = await fetch("/backend/admin/sitemessage");
+
+		let data: SiteMessage = await res.json() as SiteMessage;
+		
+		if (data.sitemessage_type == 0) {
+			showMsg = false;
+		} else {
+			msg_text = data.sitemessage_text;
+			showMsg = true;
+
+			switch(data.sitemessage_type) {
+				case 1:
+					msg_type = "is-primary";
+					msg_prefix = "";
+					break;
+				case 2:
+					msg_type = "is-primary";
+					msg_prefix = "fa-circle-info";
+					break;
+				case 3:
+					msg_type = "is-warning";
+					msg_prefix = "fa-triangle-exclamation";
+					break;
+				case 4:
+					msg_type = "is-danger";
+					msg_prefix = "fa-circle-exclamation";
+					break;
+				default:
+					showMsg = false;
+					break;
+			}
+		}
 	});
 </script>
 
 <header>
 	{#if devEnv}
 		<div class="notification is-danger is-light has-text-centered" style="border-radius: 0; margin: 0;">
-			<i class="fa-solid fa-triangle-exclamation fa-fw" />&nbsp;You are viewing a development build. All content is subject to change. 
+			<i class="fa-solid fa-circle-exclamation fa-fw" />&nbsp;You are viewing a development build. All content is subject to change. 
+		</div>
+	{/if}
+	{#if showMsg}
+		<div class="notification {msg_type} is-light has-text-centered" style="border-radius: 0; margin: 0;">
+			<i class="{msg_prefix != "" ? "fa-solid fa-fw " + msg_prefix : ""}" />&nbsp;{msg_text}
 		</div>
 	{/if}
 	<nav class="navbar {adminMode ? "is-danger" : "is-link"}">
