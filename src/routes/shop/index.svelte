@@ -83,7 +83,7 @@
                     <span class="icon is-small">
                         <i class="fa-solid fa-hotel" />
                     </span>
-                    <span>Appartment</span>
+                    <span>Apartment</span>
                 </button>
             </div>
         </div>
